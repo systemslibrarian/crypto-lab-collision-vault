@@ -1036,3 +1036,13 @@ a.btn-sm {
     transition: none !important;
   }
 }
+
+/* ── shared scripture footer (Part D) ────────────────────────────────────── */
+.scripture-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  margin-top: 2rem;
+}
