@@ -242,7 +242,7 @@ function errorPanel(title: string, body: string, details: string[]): HTMLElement
     el('p', { text: body })
   ]);
   if (details.length) {
-    const pre = el('pre', { class: 'error-details' });
+    const pre = el('pre', { class: 'error-details', tabindex: '0' });
     pre.textContent = details.join('\n');
     panel.append(pre);
   }

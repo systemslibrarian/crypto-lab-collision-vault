@@ -80,7 +80,9 @@ export function copyButton(getText: () => string, label = 'Copy'): HTMLButtonEle
 export function digestRow(label: string, hex: string | null): HTMLElement {
   const row = el('div', { class: 'digest-row' });
   const lab = el('span', { class: 'digest-label', text: label });
-  const val = el('code', { class: 'digest-value' });
+  // tabindex 0: the value scrolls horizontally, so it must be keyboard-reachable
+  // (WCAG 2.1.1 — axe scrollable-region-focusable).
+  const val = el('code', { class: 'digest-value', tabindex: '0' });
   if (hex) {
     val.textContent = groupHex(hex);
     row.append(lab, val, copyButton(() => hex, 'Copy'));

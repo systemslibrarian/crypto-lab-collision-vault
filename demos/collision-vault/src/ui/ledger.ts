@@ -34,7 +34,7 @@ export function renderLedger(proof: PairProof, vectorsPassed: boolean): HTMLElem
       el('span', { class: 'ledger-sr', text: item.pass ? 'Pass: ' : 'Fail: ' }),
       el('div', { class: 'ledger-body' }, [
         el('span', { class: 'ledger-label', text: item.label }),
-        el('code', { class: 'ledger-detail', text: item.detail })
+        el('code', { class: 'ledger-detail', tabindex: '0', text: item.detail })
       ])
     ]);
     ul.append(li);

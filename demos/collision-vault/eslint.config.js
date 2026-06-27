@@ -4,7 +4,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['dist/**', 'node_modules/**', 'coverage/**']
+    ignores: ['dist/**', 'node_modules/**', 'coverage/**', 'playwright-report/**', 'test-results/**']
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -25,6 +25,13 @@ export default tseslint.config(
   },
   {
     files: ['src/__tests__/**/*.ts'],
+    languageOptions: {
+      globals: { ...globals.node }
+    }
+  },
+  {
+    // Playwright config + e2e specs run under Node with Playwright globals.
+    files: ['e2e/**/*.ts', 'playwright.config.ts'],
     languageOptions: {
       globals: { ...globals.node }
     }

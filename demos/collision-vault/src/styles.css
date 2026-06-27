@@ -14,6 +14,9 @@
   --text: #f3e9ec;
   --muted: #c2a8b1;
   --accent-soft: rgba(214, 69, 93, 0.16);
+  /* Brighter accent for small TEXT — the base --accent (#d6455d) only reaches
+     4.16:1 on panels, below WCAG AA (4.5:1) for small text. This passes. */
+  --accent-text: #ff5a72;
 
   /* Semantic pair: alarm (a broken hash colliding) vs calm (resistance holding).
      Both are also always paired with an icon + text, never colour alone. */
@@ -26,6 +29,11 @@
 
   --shared: #f0b32a;
   --shared-bg: rgba(240, 179, 42, 0.18);
+
+  /* Diff-byte highlight: a filled red cell with text on top. White-on-red is
+     only ~3:1, so on the light-red dark theme we use dark text (~7:1). */
+  --diff-bg: #ff5a72;
+  --diff-fg: #1a0a0e;
 
   --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
   --radius: 14px;
@@ -45,6 +53,7 @@
   --text: #25151b;
   --muted: #74545f;
   --accent-soft: rgba(214, 69, 93, 0.1);
+  --accent-text: #c11f3a;
   --alarm: #c11f3a;
   --alarm-bg: rgba(193, 31, 58, 0.08);
   --alarm-border: rgba(193, 31, 58, 0.45);
@@ -53,6 +62,9 @@
   --good-border: rgba(7, 129, 79, 0.4);
   --shared: #9a6b00;
   --shared-bg: rgba(240, 179, 42, 0.22);
+  /* Light theme: alarm is a dark red, so white text passes (~7:1). */
+  --diff-bg: #c11f3a;
+  --diff-fg: #ffffff;
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
   background: var(--bg);
   color: var(--text);
@@ -76,7 +88,7 @@ body {
 }
 
 a {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 a:hover {
   text-decoration: none;
@@ -285,7 +297,7 @@ h3 {
   flex: 0 0 auto;
 }
 .pair-radio:checked + .pair-card-body .pair-name {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .pair-card:has(.pair-radio:checked) {
   border-color: var(--accent);
@@ -326,7 +338,7 @@ h3 {
 .pair-broken {
   font-family: var(--mono);
   font-size: 0.72rem;
-  color: var(--accent);
+  color: var(--accent-text);
   letter-spacing: 0.03em;
 }
 .pair-caption {
@@ -461,7 +473,7 @@ h3 {
 .sch-chosenA {
   flex: 2;
   background: var(--accent-soft);
-  color: var(--accent);
+  color: var(--accent-text);
   border: 1px dashed var(--accent);
 }
 .sch-chosenB {
@@ -546,7 +558,7 @@ h3 {
 }
 .bytediff-toggle .btn-sm[aria-selected='true'] {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .bytediff-panels {
   display: grid;
@@ -589,8 +601,8 @@ h3 {
   text-align: center;
 }
 .hb.diff {
-  background: var(--alarm);
-  color: #fff;
+  background: var(--diff-bg);
+  color: var(--diff-fg);
   border-radius: 3px;
   font-weight: 700;
 }
@@ -731,7 +743,7 @@ a.btn-sm {
 }
 .present-btn {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 700;
 }
 
@@ -836,7 +848,7 @@ a.btn-sm {
 }
 .tamper-flip {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 700;
 }
 .tamper-result {
