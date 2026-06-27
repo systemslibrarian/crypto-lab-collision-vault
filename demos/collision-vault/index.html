@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      // Honour a saved theme before first paint (the standardization pass adds
+      // the toggle control; this just respects its stored choice). Default dark.
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          document.documentElement.setAttribute('data-theme', saved || 'dark');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collision Vault — verifying real MD5 / SHA-1 hash collisions</title>
+    <meta
+      name="description"
+      content="Verify real published MD5 and SHA-1 collisions live in the browser: two different files, one digest — and why SHA-256 and SHA-3 resist."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%A0%EF%B8%8F%3C/text%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
+    <!-- Standardization pass (Parts 0 + A–E) injects the shared header here. -->
+    <main id="app"></main>
+    <!-- Standardization pass injects the scripture footer here. -->
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
