@@ -2,15 +2,21 @@ import './styles.css';
 
 import { HashClient } from './hashing/client';
 import type { HashAlgorithm } from './hashing/index';
-import { sharedPrefixLength } from './util/hex';
-import { PAIRS, loadPair, assetUrl, type LoadedPair } from './pairs/loader';
+import { PAIRS, loadPair, type LoadedPair } from './pairs/loader';
 import type { PairManifestEntry } from './pairs/manifest';
+import { buildProof, type PairProof } from './pairs/proof';
 import { el } from './ui/common';
 import { renderPairSelector } from './ui/pairSelector';
 import { createByteDiff } from './ui/byteDiff';
 import { renderDigestPanel, ALL_DEMO_ALGOS } from './ui/digestPanel';
 import { renderResistancePanel } from './ui/resistancePanel';
 import { renderExplainer } from './ui/explainer';
+import { renderLedger } from './ui/ledger';
+import { renderTamper } from './ui/tamper';
+import { renderProofActions } from './ui/proofActions';
+import { renderMinimap } from './ui/byteMap';
+import { renderPdfPreview } from './ui/pdfPreview';
+import { mountPresenter } from './ui/presenter';
 
 const app = document.getElementById('app');
 if (!app) throw new Error('#app mount point missing');
@@ -18,6 +24,7 @@ if (!app) throw new Error('#app mount point missing');
 const client = new HashClient();
 let selectedId = PAIRS[0].id;
 let renderToken = 0; // guards against out-of-order async renders
+let vectorsPassed = false; // set once the hash self-test succeeds
 
 // ── static scaffold ────────────────────────────────────────────────────────
 app.append(buildIntro());
@@ -67,6 +74,7 @@ async function start(): Promise<void> {
     );
     return;
   }
+  vectorsPassed = true;
   setStatus('calm', '✓', `Hash implementations validated against known test vectors${client.offMainThread ? ' · hashing off the main thread' : ''}.`);
   await showPair(selectedId);
 }
@@ -130,14 +138,35 @@ async function showPair(id: string): Promise<void> {
     return;
   }
 
-  const shared = sharedPrefixLength(loaded.a, loaded.b);
+  const proof = buildProof(entry, loaded.a, loaded.b, digestA, resA, resB);
+  renderNormal(proof);
+}
 
+/** Render the full, scrollable proof view for a computed pair. */
+function renderNormal(proof: PairProof): void {
+  const { entry, resA, resB, brokenDigest } = proof;
+  const broken = entry.brokenHash;
   results.replaceChildren(
-    fileEvidencePanel(entry, loaded),
-    renderDigestPanel(entry, digestA, digestB),
-    renderExplainer(entry, shared),
-    renderResistancePanel(resA, resB)
+    renderProofToolbar(proof),
+    fileEvidencePanel(proof),
+    renderDigestPanel(entry, brokenDigest, resB[broken] ?? ''),
+    renderExplainer(proof),
+    renderResistancePanel(resA, resB),
+    renderLedger(proof, vectorsPassed),
+    renderTamper(proof, client, vectorsPassed)
   );
+}
+
+function renderProofToolbar(proof: PairProof): HTMLElement {
+  const present = el('button', {
+    type: 'button',
+    class: 'btn-sm present-btn',
+    text: '▶ Presenter mode'
+  });
+  present.addEventListener('click', () => {
+    mountPresenter(results, proof, () => renderNormal(proof));
+  });
+  return el('div', { class: 'proof-toolbar' }, [renderProofActions(proof), present]);
 }
 
 // ── panels built here (intro / evidence / status / errors) ──────────────────
@@ -175,7 +204,8 @@ function buildNonGoals(): HTMLElement {
   ]);
 }
 
-function fileEvidencePanel(entry: PairManifestEntry, loaded: LoadedPair): HTMLElement {
+function fileEvidencePanel(proof: PairProof): HTMLElement {
+  const entry = proof.entry;
   const panel = el('section', { class: 'panel evidence-panel', 'aria-labelledby': 'evidence-title' });
   panel.append(
     el('div', { class: 'panel-head' }, [
@@ -188,16 +218,11 @@ function fileEvidencePanel(entry: PairManifestEntry, loaded: LoadedPair): HTMLEl
   );
 
   if (entry.isPdf) {
-    const links = el('p', { class: 'pdf-links' }, [
-      document.createTextNode('These are valid PDFs that render as visibly different documents: '),
-      el('a', { href: assetUrl(entry.fileA), target: '_blank', rel: 'noopener', text: 'open File A ↗' }),
-      document.createTextNode(' · '),
-      el('a', { href: assetUrl(entry.fileB), target: '_blank', rel: 'noopener', text: 'open File B ↗' })
-    ]);
-    panel.append(links);
+    panel.append(renderPdfPreview(entry));
   }
 
-  panel.append(createByteDiff(loaded.a, loaded.b).element);
+  panel.append(renderMinimap(proof));
+  panel.append(createByteDiff(proof.a, proof.b).element);
   return panel;
 }
 

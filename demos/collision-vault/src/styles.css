@@ -710,6 +710,312 @@ h3 {
   }
 }
 
+/* ── proof toolbar / actions ─────────────────────────────────────────────── */
+.proof-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.6rem 0 0.2rem;
+}
+.proof-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+a.btn-sm {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.present-btn {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ── citation ────────────────────────────────────────────────────────────── */
+.citation {
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  padding-top: 0.7rem;
+  margin-top: 0.9rem;
+}
+.citation-label {
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── verification ledger ─────────────────────────────────────────────────── */
+.ledger-list {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.ledger-item {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--panel);
+}
+.ledger-item.pass {
+  border-color: var(--good-border);
+  background: var(--good-bg);
+}
+.ledger-item.fail {
+  border-color: var(--alarm-border);
+  background: var(--alarm-bg);
+}
+.ledger-mark {
+  font-weight: 800;
+  flex: 0 0 auto;
+  width: 1.2rem;
+  text-align: center;
+}
+.ledger-item.pass .ledger-mark {
+  color: var(--good);
+}
+.ledger-item.fail .ledger-mark {
+  color: var(--alarm);
+}
+.ledger-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.ledger-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.ledger-label {
+  font-weight: 600;
+}
+.ledger-detail {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--muted);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* ── tamper experiment ───────────────────────────────────────────────────── */
+.tamper-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.6rem;
+  margin: 0.6rem 0;
+}
+.tamper-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.tamper-select {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--input-bg, var(--panel-strong));
+  color: var(--text);
+}
+.tamper-flip {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+.tamper-result {
+  margin-top: 0.6rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.tamper-result.is-ok {
+  border-color: var(--good-border);
+  background: var(--good-bg);
+}
+.tamper-result.is-alarm {
+  border-color: var(--alarm-border);
+  background: var(--alarm-bg);
+}
+.tamper-change {
+  margin: 0 0 0.5rem;
+}
+.tamper-change code,
+.ledger-detail {
+  background: rgba(0, 0, 0, 0.18);
+  padding: 0.05rem 0.35rem;
+  border-radius: 5px;
+}
+[data-theme='light'] .tamper-change code {
+  background: var(--panel-strong);
+}
+
+/* ── minimap ─────────────────────────────────────────────────────────────── */
+.minimap-wrap {
+  margin: 0.5rem 0 0.8rem;
+}
+.minimap {
+  position: relative;
+  height: 18px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: repeating-linear-gradient(90deg, var(--panel-strong) 0 6px, var(--panel) 6px 12px);
+  overflow: hidden;
+}
+.minimap-shared,
+.minimap-diff {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+.minimap-shared {
+  background: var(--shared-bg);
+  border-right: 1px solid var(--shared);
+}
+.minimap-diff {
+  background: var(--alarm);
+  min-width: 2px;
+}
+.minimap-legend {
+  margin: 0.35rem 0 0;
+  font-size: 0.76rem;
+}
+
+/* ── evidence-linked attack diagram ──────────────────────────────────────── */
+.evbar-wrap {
+  margin: 0.7rem 0;
+}
+.evbar {
+  display: flex;
+  gap: 2px;
+  height: 56px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.evseg {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 0.3rem;
+  border-radius: 5px;
+  text-align: center;
+}
+.evseg-label {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+/* ── PDF preview ─────────────────────────────────────────────────────────── */
+.pdf-preview {
+  margin: 0.5rem 0 0.8rem;
+}
+.pdf-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+.pdf-frame {
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--panel-strong);
+}
+.pdf-cap {
+  padding: 0.4rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+}
+.pdf-object {
+  width: 100%;
+  height: 320px;
+  border: 0;
+  display: block;
+  background: #fff;
+}
+.pdf-fallback {
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ── presenter mode ──────────────────────────────────────────────────────── */
+.presenter {
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: clamp(1rem, 3vw, 2rem);
+  background: var(--panel);
+  min-height: 60vh;
+  outline: none;
+}
+.presenter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.presenter-counter {
+  font-weight: 700;
+  margin-right: auto;
+}
+.presenter-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  margin: 0 0 0.8rem;
+}
+.presenter-stage {
+  font-size: 1.1rem;
+}
+.presenter-stage .panel {
+  box-shadow: none;
+  margin: 0.5rem 0;
+}
+.present-lead {
+  font-size: clamp(1.5rem, 5vw, 2.4rem);
+  font-weight: 800;
+  margin: 0.3rem 0;
+}
+.present-sub {
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+.present-final .digest-value {
+  font-size: 1.05rem;
+}
+.presenter-hint {
+  margin-top: 1rem;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 640px) {
+  .pdf-grid {
+    grid-template-columns: 1fr;
+  }
+  .proof-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .spinner {
     animation-duration: 2.4s;

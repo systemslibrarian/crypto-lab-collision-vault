@@ -22,6 +22,39 @@ export function el<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
+/** Copy text to the clipboard, with a fallback for non-secure contexts. */
+export async function copyText(text: string): Promise<void> {
+  try {
+    await navigator.clipboard.writeText(text);
+    return;
+  } catch {
+    // Fallback for environments without the async clipboard API.
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+    } catch {
+      /* give up silently — the text is still selectable on screen */
+    }
+    ta.remove();
+  }
+}
+
+/** Briefly swap a button's label to confirm an action (text, not colour alone). */
+export function flashLabel(btn: HTMLButtonElement, confirm = 'Copied ✓', ms = 1400): void {
+  const prev = btn.textContent;
+  btn.textContent = confirm;
+  btn.classList.add('copied');
+  window.setTimeout(() => {
+    btn.textContent = prev;
+    btn.classList.remove('copied');
+  }, ms);
+}
+
 /**
  * Copy-to-clipboard button. Never relies on colour alone: it swaps the label
  * text ("Copy" → "Copied ✓") and announces via aria-live.
@@ -34,31 +67,8 @@ export function copyButton(getText: () => string, label = 'Copy'): HTMLButtonEle
   });
   btn.textContent = label;
   btn.addEventListener('click', async () => {
-    const text = getText();
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      // Fallback for environments without async clipboard.
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      try {
-        document.execCommand('copy');
-      } catch {
-        /* give up silently — the text is still selectable on screen */
-      }
-      ta.remove();
-    }
-    const prev = btn.textContent;
-    btn.textContent = 'Copied ✓';
-    btn.classList.add('copied');
-    window.setTimeout(() => {
-      btn.textContent = prev;
-      btn.classList.remove('copied');
-    }, 1400);
+    await copyText(getText());
+    flashLabel(btn);
   });
   return btn;
 }
