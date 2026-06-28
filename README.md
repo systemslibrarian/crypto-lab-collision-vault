@@ -1,6 +1,4 @@
-# Collision Vault
-
-> **[Live demo →](https://systemslibrarian.github.io/crypto-lab-collision-vault/)**
+# crypto-lab-collision-vault
 
 ## What It Is
 
@@ -28,10 +26,11 @@ broken hash failing while the modern hashes keep the files apart.
 - **When NOT to use MD5 or SHA-1:** never for any security purpose — certificates,
   signatures, integrity against an adversary, or deduplication. Chosen-prefix collisions
   enabled a rogue CA certificate (2008) and the Flame espionage malware (2012).
+- **Do NOT** treat this as production code — it is a teaching demo that verifies known collisions, not a hardened hashing or file-integrity library.
 
 ## Live Demo
 
-**[https://systemslibrarian.github.io/crypto-lab-collision-vault/](https://systemslibrarian.github.io/crypto-lab-collision-vault/)**
+**[systemslibrarian.github.io/crypto-lab-collision-vault](https://systemslibrarian.github.io/crypto-lab-collision-vault/)**
 
 Pick a real collision pair and watch a broken hash produce one digest for two different
 files, computed live in your browser, while SHA-256 and SHA3-256 keep them distinct. This
@@ -41,6 +40,22 @@ byte-diff viewer and whole-file minimap, the broken-hash digest panel, an
 identical-vs-chosen-prefix explainer, the SHA-256/SHA-3 resistance contrast, a verification
 ledger, a one-byte "tamper" experiment that breaks the collision, and a keyboard-driven
 presenter mode.
+
+## What Can Go Wrong
+
+- Using MD5 or SHA-1 for any adversarial integrity purpose: practical chosen-prefix collisions let an attacker craft two different files with the same digest, which is how a rogue CA certificate (2008) and the Flame malware (2012) were signed.
+- Relying on a hash's collision strength for password storage: collision resistance is the wrong property, and a fast hash only speeds up brute force — use a password KDF instead.
+- Length-extension on Merkle–Damgård hashes (MD5, SHA-1, SHA-256): building a MAC as `H(secret || message)` is forgeable; use HMAC.
+- Confusing collision resistance with preimage resistance: MD5/SHA-1 collisions are practical while preimages are not, so "still fine for X" reasoning about broken hashes is error-prone.
+- Truncating a strong digest too aggressively drops collision security below the birthday bound and can reopen collision risk.
+
+## Real-World Usage
+
+- Git is migrating its object identifiers from SHA-1 to SHA-256 specifically because adversarial SHA-1 collisions are now practical.
+- X.509 certificates and Certificate Transparency logs use SHA-256; CAs and browsers deprecated MD5- and SHA-1-based certificate signatures.
+- Content addressing and deduplication systems use SHA-256 to give files stable, collision-resistant identities.
+- Software-distribution integrity (release checksums, package managers, signed updates) relies on SHA-256/SHA-3 digests.
+- Code signing and TLS handshakes moved off MD5/SHA-1 to SHA-256-family hashes as the broken functions fell.
 
 ## How to Run Locally
 
@@ -53,12 +68,15 @@ npm run dev
 
 No environment variables are required. Everything runs client-side with no backend.
 
-## Part of the Crypto-Lab Suite
-
-> One of 100+ live browser demos at
-> [systemslibrarian.github.io/crypto-lab](https://systemslibrarian.github.io/crypto-lab/)
-> — spanning Atbash (600 BCE) through NIST FIPS 203/204/205 (2024).
+## Related Demos
+- [crypto-lab-hash-zoo](https://systemslibrarian.github.io/crypto-lab-hash-zoo/) — SHA-256, SHA3-256, and BLAKE3 with the Merkle–Damgård construction, the families compared here.
+- [crypto-lab-babel-hash](https://systemslibrarian.github.io/crypto-lab-babel-hash/) — hands-on tour of SHA-256, SHA3-256, BLAKE3, and HMAC.
+- [crypto-lab-merkle-vault](https://systemslibrarian.github.io/crypto-lab-merkle-vault/) — SHA-256 Merkle trees and inclusion proofs, a hash application that needs collision resistance.
+- [crypto-lab-world-hashes](https://systemslibrarian.github.io/crypto-lab-world-hashes/) — national hash standards (SM3, Streebog, Kupyna) alongside SHA-256.
+- [crypto-lab-mac-race](https://systemslibrarian.github.io/crypto-lab-mac-race/) — HMAC, CMAC, Poly1305, and GHASH, the keyed-hash counterpart to plain hashing.
 
 ---
 
-*"Whether you eat or drink, or whatever you do, do all to the glory of God." — 1 Corinthians 10:31*
+*One of 60+ browser demos in the [Crypto Lab](https://crypto-lab.systemslibrarian.dev/) suite.*
+
+*"So whether you eat or drink or whatever you do, do it all for the glory of God." — 1 Corinthians 10:31*
