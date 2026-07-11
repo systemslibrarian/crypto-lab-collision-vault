@@ -4,7 +4,7 @@
 
 import { ALGORITHMS, type HashAlgorithm } from '../hashing/index';
 import type { PairManifestEntry } from '../pairs/manifest';
-import { el, digestRow, statusChip } from './common';
+import { el, fmt, digestRow, statusChip } from './common';
 
 export function renderDigestPanel(
   entry: PairManifestEntry,
@@ -37,21 +37,27 @@ export function renderDigestPanel(
   // The verdict line, conveyed by icon + text + colour (WCAG 1.4.1).
   const verdict = el('p', { class: 'verdict' });
   if (equal) {
-    verdict.innerHTML =
-      `<span class="verdict-icon" aria-hidden="true">⚠</span> ` +
-      `<strong>Collision confirmed.</strong> Two genuinely different files produce the ` +
-      `<em>identical</em> ${info.label} digest. For a sound hash this must be infeasible — ` +
-      `here it is computed live in your browser. The hash function has failed.`;
+    verdict.append(
+      el('span', { class: 'verdict-icon', 'aria-hidden': 'true', text: '⚠' }),
+      document.createTextNode(' '),
+      ...fmt(
+        `**Collision confirmed.** Two genuinely different files produce the ` +
+          `*identical* ${info.label} digest. For a sound hash this must be infeasible — ` +
+          `here it is computed live in your browser. The hash function has failed.`
+      )
+    );
   } else {
-    verdict.innerHTML =
-      `<span class="verdict-icon" aria-hidden="true">?</span> Digests differ — this would ` +
-      `mean the bundled asset is not the expected collision pair.`;
+    verdict.append(
+      el('span', { class: 'verdict-icon', 'aria-hidden': 'true', text: '?' }),
+      document.createTextNode(
+        ' Digests differ — this would mean the bundled asset is not the expected collision pair.'
+      )
+    );
   }
   panel.append(verdict);
 
   panel.append(
-    el('p', { class: 'note', html: `<strong>Why this is real:</strong> ${info.note} ` +
-      `Implementation: ${info.provider}.` })
+    el('p', { class: 'note' }, fmt(`**Why this is real:** ${info.note} Implementation: ${info.provider}.`))
   );
 
   return panel;

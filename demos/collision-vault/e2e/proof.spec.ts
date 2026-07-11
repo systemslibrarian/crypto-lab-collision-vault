@@ -22,6 +22,8 @@ test('default pair shows a live collision and modern-hash resistance', async ({ 
   // Verification ledger: all seven invariants pass.
   await expect(page.locator('.ledger-panel .panel-head')).toContainText('7/7 checks pass');
   await expect(page.locator('.ledger-item.fail')).toHaveCount(0);
+  // State trace: the independent implementation shows the re-convergence.
+  await expect(page.locator('.trace-panel')).toContainText('RE-CONVERGED');
 });
 
 for (const pair of PAIRS) {
@@ -52,9 +54,9 @@ test('presenter mode opens and steps forward', async ({ page }) => {
   await expect(page.locator('.digest-panel')).toBeVisible({ timeout: 20_000 });
   await page.getByRole('button', { name: /Presenter mode/ }).click();
   await expect(page.locator('.presenter')).toBeVisible();
-  await expect(page.locator('.presenter-counter')).toContainText('Step 1 / 6');
+  await expect(page.locator('.presenter-counter')).toContainText('Step 1 / 7');
   await page.getByRole('button', { name: /Next/ }).click();
-  await expect(page.locator('.presenter-counter')).toContainText('Step 2 / 6');
+  await expect(page.locator('.presenter-counter')).toContainText('Step 2 / 7');
   // Esc exits back to the normal view.
   await page.keyboard.press('Escape');
   await expect(page.locator('.presenter')).toHaveCount(0);
@@ -67,6 +69,6 @@ test('mobile: byte-diff A/B toggle switches the active file', async ({ page }, t
   const panels = page.locator('.bytediff-panels');
   await expect(panels).toBeVisible({ timeout: 20_000 });
   await expect(panels).toHaveAttribute('data-active', 'A');
-  await page.getByRole('tab', { name: 'File B' }).click();
+  await page.getByRole('button', { name: 'File B', exact: true }).click();
   await expect(panels).toHaveAttribute('data-active', 'B');
 });

@@ -4,7 +4,7 @@
 // dangerous result (Flame, rogue CA). Also renders the source citation.
 
 import type { PairProof } from '../pairs/proof';
-import { el, statusChip } from './common';
+import { el, fmt, statusChip } from './common';
 import { renderCitation } from './citation';
 
 // Both MD5 and SHA-1 attacks append a pair of 64-byte near-collision blocks
@@ -67,7 +67,7 @@ export function renderExplainer(proof: PairProof): HTMLElement {
   );
 
   panel.append(
-    el('p', { class: 'note', html: `Selected pair <strong>“${entry.label}”</strong> is a <strong>${entry.type}</strong> collision. The byte-scale map below is drawn from the real bundled bytes:` }),
+    el('p', { class: 'note' }, fmt(`Selected pair **“${entry.label}”** is a **${entry.type}** collision. The byte-scale map below is drawn from the real bundled bytes:`)),
     evidenceDiagram(proof)
   );
 
@@ -81,14 +81,14 @@ export function renderExplainer(proof: PairProof): HTMLElement {
     el('div', { class: 'explainer-card explainer-card-danger' }, [
       el('h3', {}, [document.createTextNode('Chosen-prefix '), el('span', { class: 'tag-danger', text: 'more dangerous' })]),
       el('p', { text: 'The attacker picks two completely different prefixes — e.g. two distinct certificate identities — and computes blocks that still collide. No shared start required (shared prefix = 0 bytes).' }),
-      el('p', { html: '<strong>Real impact:</strong> a rogue CA certificate (2008) and the <strong>Flame</strong> malware (2012), which forged a Microsoft code-signing certificate via a chosen-prefix MD5 collision to spread through Windows Update.' })
+      el('p', {}, fmt('**Real impact:** a rogue CA certificate (2008) and the **Flame** malware (2012), which forged a Microsoft code-signing certificate via a chosen-prefix MD5 collision to spread through Windows Update.'))
     ])
   );
   panel.append(grid);
 
   panel.append(
-    el('p', { class: 'note', html: `<strong>This pair’s history:</strong> ${entry.history}` }),
-    el('p', { class: 'note', html: `<strong>Why it matters:</strong> ${entry.realWorldImpact}` }),
+    el('p', { class: 'note' }, fmt(`**This pair’s history:** ${entry.history}`)),
+    el('p', { class: 'note' }, fmt(`**Why it matters:** ${entry.realWorldImpact}`)),
     renderCitation(entry.source)
   );
 

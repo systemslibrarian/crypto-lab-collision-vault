@@ -8,6 +8,7 @@ import { el, digestRow, statusChip } from './common';
 import { renderDigestPanel } from './digestPanel';
 import { renderExplainer } from './explainer';
 import { renderResistancePanel } from './resistancePanel';
+import { renderStateTrace } from './stateTrace';
 import { renderMinimap } from './byteMap';
 import { renderPdfPreview } from './pdfPreview';
 
@@ -53,6 +54,10 @@ function buildSteps(proof: PairProof): Step[] {
       build: () => renderExplainer(proof)
     },
     {
+      title: 'Inside the hash — states forced to converge',
+      build: () => renderStateTrace(proof)
+    },
+    {
       title: 'Modern hashes resist',
       build: () => renderResistancePanel(proof.resA, proof.resB)
     },
@@ -77,7 +82,16 @@ export function mountPresenter(host: HTMLElement, proof: PairProof, onExit: () =
   const steps = buildSteps(proof);
   let idx = 0;
 
-  const root = el('section', { class: 'presenter', 'aria-label': 'Presenter mode', tabindex: '-1' });
+  // A fullscreen modal dialog: the page behind is scroll-locked (body class)
+  // and Tab is trapped inside, so a talk can't accidentally scroll or focus
+  // the normal view underneath.
+  const root = el('section', {
+    class: 'presenter',
+    role: 'dialog',
+    'aria-modal': 'true',
+    'aria-label': 'Presenter mode',
+    tabindex: '-1'
+  });
 
   const bar = el('div', { class: 'presenter-bar' });
   const counter = el('span', { class: 'presenter-counter', 'aria-live': 'polite' });
@@ -86,8 +100,12 @@ export function mountPresenter(host: HTMLElement, proof: PairProof, onExit: () =
   const exit = el('button', { type: 'button', class: 'btn-sm', text: '✕ Exit presenter' });
   bar.append(counter, prev, next, exit);
 
-  const stage = el('div', { class: 'presenter-stage', role: 'group', 'aria-live': 'polite' });
-  const hint = el('p', { class: 'presenter-hint dim', text: 'Use ← → or Space to move between steps · Esc to exit' });
+  const stage = el('div', { class: 'presenter-stage', 'aria-live': 'polite' });
+  const hint = el('p', {
+    class: 'presenter-hint dim',
+    role: 'note',
+    text: 'Use ← → or Space to move between steps · Esc to exit'
+  });
 
   root.append(bar, stage, hint);
 
@@ -113,11 +131,23 @@ export function mountPresenter(host: HTMLElement, proof: PairProof, onExit: () =
 
   function teardown(): void {
     document.removeEventListener('keydown', onKey);
+    document.body.classList.remove('presenter-active');
     onExit();
   }
   exit.addEventListener('click', teardown);
 
   function onKey(ev: KeyboardEvent): void {
+    // If the host re-rendered underneath us (e.g. a new pair was selected),
+    // the presenter is gone: drop the listener instead of acting on stale state.
+    if (!root.isConnected) {
+      document.removeEventListener('keydown', onKey);
+      document.body.classList.remove('presenter-active');
+      return;
+    }
+    // Space on a focused control must activate that control, not advance.
+    if (ev.key === ' ' && ev.target instanceof HTMLElement && ev.target.closest('button, a')) {
+      return;
+    }
     if (ev.key === 'ArrowRight' || ev.key === ' ' || ev.key === 'PageDown') {
       ev.preventDefault();
       go(1);
@@ -127,10 +157,27 @@ export function mountPresenter(host: HTMLElement, proof: PairProof, onExit: () =
     } else if (ev.key === 'Escape') {
       ev.preventDefault();
       teardown();
+    } else if (ev.key === 'Tab') {
+      // Minimal focus trap for the modal (WCAG 2.4.3 / no-escape-behind).
+      const focusables = root.querySelectorAll<HTMLElement>(
+        'button:not(:disabled), a[href], [tabindex="0"]'
+      );
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement;
+      if (ev.shiftKey && (active === first || active === root)) {
+        ev.preventDefault();
+        last.focus();
+      } else if (!ev.shiftKey && active === last) {
+        ev.preventDefault();
+        first.focus();
+      }
     }
   }
   document.addEventListener('keydown', onKey);
 
+  document.body.classList.add('presenter-active');
   host.replaceChildren(root);
   render();
 }

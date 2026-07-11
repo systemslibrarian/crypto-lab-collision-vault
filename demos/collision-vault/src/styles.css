@@ -100,6 +100,16 @@ h3 {
   line-height: 1.2;
 }
 
+/* Visually hidden, still exposed to assistive tech (live regions, captions). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 /* ── focus visibility (keyboard) ─────────────────────────────────────────── */
 :where(a, button, input, [tabindex]):focus-visible {
   outline: 3px solid var(--accent);
@@ -556,7 +566,7 @@ h3 {
   gap: 0.4rem;
   margin-bottom: 0.5rem;
 }
-.bytediff-toggle .btn-sm[aria-selected='true'] {
+.bytediff-toggle .btn-sm[aria-pressed='true'] {
   border-color: var(--accent);
   color: var(--accent-text);
 }
@@ -971,13 +981,20 @@ a.btn-sm {
 }
 
 /* ── presenter mode ──────────────────────────────────────────────────────── */
+/* A fullscreen modal overlay (above the sticky site header at z-index 1000):
+   nothing behind it scrolls or distracts during a talk. */
 .presenter {
-  border: 1px solid var(--accent);
-  border-radius: var(--radius);
-  padding: clamp(1rem, 3vw, 2rem);
-  background: var(--panel);
-  min-height: 60vh;
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  overflow: auto;
+  border-top: 3px solid var(--accent);
+  padding: clamp(1rem, 4vw, 2.5rem);
+  background: var(--bg);
   outline: none;
+}
+body.presenter-active {
+  overflow: hidden;
 }
 .presenter-bar {
   display: flex;
@@ -1034,6 +1051,137 @@ a.btn-sm {
   }
   * {
     transition: none !important;
+  }
+}
+
+/* ── hash-state trace (inside the hash) ──────────────────────────────────── */
+.trace-summary {
+  margin: 0.7rem 0;
+  max-width: 74ch;
+}
+.trace-wrap {
+  overflow-x: auto;
+  margin-top: 0.6rem;
+}
+.trace-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.85rem;
+}
+.trace-table th,
+.trace-table td {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: middle;
+}
+.trace-table thead th {
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.trace-table tbody th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.trace-block {
+  display: block;
+}
+.trace-range {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+}
+.trace-cv {
+  font-family: var(--mono);
+  background: rgba(0, 0, 0, 0.18);
+  padding: 0.1rem 0.4rem;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+[data-theme='light'] .trace-cv {
+  background: var(--panel-strong);
+}
+.trace-cv-diff {
+  color: var(--accent-text);
+}
+.trace-gap td {
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.76rem;
+}
+.trace-converge th,
+.trace-converge td {
+  background: var(--alarm-bg);
+  border-bottom-color: var(--alarm-border);
+}
+/* The translucent alarm chip on the (also alarm-tinted) converge row stacks to
+   ~4.45:1 — just under AA. A solid page background restores full contrast. */
+.trace-converge .chip-alarm {
+  background: var(--bg);
+}
+
+/* ── print: a citable proof on paper ─────────────────────────────────────── */
+@media print {
+  /* Force the light palette regardless of the saved theme (last rule wins at
+     equal specificity against both :root and [data-theme='light'] blocks). */
+  :root,
+  [data-theme='light'] {
+    --bg: #ffffff;
+    --panel: #ffffff;
+    --panel-strong: #f2f2f2;
+    --border: #bbbbbb;
+    --text: #111111;
+    --muted: #444444;
+    --accent-soft: #eeeeee;
+    --accent-text: #8c1128;
+    --alarm: #8c1128;
+    --alarm-bg: #f7e9ec;
+    --alarm-border: #8c1128;
+    --good: #0a5c39;
+    --good-bg: #e7f3ed;
+    --good-border: #0a5c39;
+    --shared: #6b4a00;
+    --shared-bg: #f5ead0;
+    --diff-bg: #8c1128;
+    --diff-fg: #ffffff;
+    --shadow: none;
+  }
+  body {
+    background: #ffffff;
+    color: #111111;
+  }
+  /* Interactive-only chrome has no meaning on paper. */
+  .cl-topbar,
+  .cl-skip-link,
+  .selector-host,
+  .proof-toolbar,
+  .bytediff-controls,
+  .bytediff-toggle,
+  .tamper-panel,
+  .pdf-preview,
+  .spinner,
+  .copy-btn {
+    display: none !important;
+  }
+  .panel {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+  /* Digests must be fully legible on paper: wrap instead of scroll. */
+  .digest-value,
+  .ledger-detail {
+    white-space: normal;
+    word-break: break-all;
+    overflow: visible;
+  }
+  /* Surface citation URLs, which are otherwise invisible in print. */
+  .citation a::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
   }
 }
 

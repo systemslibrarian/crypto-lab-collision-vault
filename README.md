@@ -37,9 +37,10 @@ files, computed live in your browser, while SHA-256 and SHA3-256 keep them disti
 demo is about **hashing only — there is no encryption or decryption.** Controls include the
 collision-pair selector (SHAttered SHA-1 PDFs, MD5 identical-prefix, MD5 chosen-prefix), a
 byte-diff viewer and whole-file minimap, the broken-hash digest panel, an
-identical-vs-chosen-prefix explainer, the SHA-256/SHA-3 resistance contrast, a verification
-ledger, a one-byte "tamper" experiment that breaks the collision, and a keyboard-driven
-presenter mode.
+identical-vs-chosen-prefix explainer, a block-by-block trace of the hash's internal state
+showing the two files' chaining values diverge and get forced back together by the crafted
+blocks, the SHA-256/SHA-3 resistance contrast, a verification ledger, a one-byte "tamper"
+experiment that breaks the collision, and a keyboard-driven presenter mode.
 
 ## What Can Go Wrong
 

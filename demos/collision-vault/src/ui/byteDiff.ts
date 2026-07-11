@@ -5,6 +5,7 @@
 // hundreds of thousands of cells.
 
 import { byteToHex, isPrintable, sharedPrefixLength, diffRegions, firstDifferenceOffset } from '../util/hex';
+import { el } from './common';
 
 const BYTES_PER_ROW = 16;
 const WINDOW_ROWS = 24;
@@ -26,10 +27,16 @@ export function createByteDiff(a: Uint8Array, b: Uint8Array): ByteDiffHandle {
   // ── summary line ───────────────────────────────────────────────────────
   const summary = document.createElement('p');
   summary.className = 'bytediff-summary';
-  summary.innerHTML =
-    `<strong>${a.length.toLocaleString()}</strong> vs <strong>${b.length.toLocaleString()}</strong> bytes · ` +
-    `shared prefix <strong>${shared.toLocaleString()}</strong> bytes · ` +
-    `<strong>${regions.length}</strong> differing region${regions.length === 1 ? '' : 's'}`;
+  summary.append(
+    el('strong', { text: a.length.toLocaleString() }),
+    ' vs ',
+    el('strong', { text: b.length.toLocaleString() }),
+    ' bytes · shared prefix ',
+    el('strong', { text: shared.toLocaleString() }),
+    ' bytes · ',
+    el('strong', { text: String(regions.length) }),
+    ` differing region${regions.length === 1 ? '' : 's'}`
+  );
   root.appendChild(summary);
 
   // ── controls ───────────────────────────────────────────────────────────
@@ -57,15 +64,17 @@ export function createByteDiff(a: Uint8Array, b: Uint8Array): ByteDiffHandle {
   root.appendChild(controls);
 
   // ── mobile A|B toggle (hidden on wide screens via CSS) ──────────────────
+  // Toggle buttons (aria-pressed), not a tablist: a full tab pattern would also
+  // need roving focus + arrow keys, and the panels are plain hex dumps. A polite
+  // live region announces the switch, since the swap happens out of focus order.
   const toggle = document.createElement('div');
   toggle.className = 'bytediff-toggle';
-  toggle.setAttribute('role', 'tablist');
+  toggle.setAttribute('role', 'group');
   toggle.setAttribute('aria-label', 'Choose which file to view');
   const showA = mkBtn('File A', 'Show file A');
   const showB = mkBtn('File B', 'Show file B');
-  showA.setAttribute('role', 'tab');
-  showB.setAttribute('role', 'tab');
-  toggle.append(showA, showB);
+  const toggleAnnounce = el('span', { class: 'sr-only', 'aria-live': 'polite' });
+  toggle.append(showA, showB, toggleAnnounce);
   root.appendChild(toggle);
 
   // ── hex panels ──────────────────────────────────────────────────────────
@@ -80,10 +89,13 @@ export function createByteDiff(a: Uint8Array, b: Uint8Array): ByteDiffHandle {
 
   const legend = document.createElement('p');
   legend.className = 'bytediff-legend';
-  legend.innerHTML =
-    '<span class="swatch swatch-shared"></span> shared prefix &nbsp; ' +
-    '<span class="swatch swatch-diff"></span> differing byte &nbsp; ' +
-    '<span class="dim">·· = beyond end of file · non-printable shown as “.”</span>';
+  legend.append(
+    el('span', { class: 'swatch swatch-shared', 'aria-hidden': 'true' }),
+    ' shared prefix   ',
+    el('span', { class: 'swatch swatch-diff', 'aria-hidden': 'true' }),
+    ' differing byte   ',
+    el('span', { class: 'dim', text: '·· = beyond end of file · non-printable shown as “.”' })
+  );
   root.appendChild(legend);
 
   // ── state ────────────────────────────────────────────────────────────────
@@ -130,13 +142,14 @@ export function createByteDiff(a: Uint8Array, b: Uint8Array): ByteDiffHandle {
     render();
   });
 
-  function selectFile(which: 'A' | 'B'): void {
+  function selectFile(which: 'A' | 'B', announce = false): void {
     panels.dataset.active = which;
-    showA.setAttribute('aria-selected', String(which === 'A'));
-    showB.setAttribute('aria-selected', String(which === 'B'));
+    showA.setAttribute('aria-pressed', String(which === 'A'));
+    showB.setAttribute('aria-pressed', String(which === 'B'));
+    if (announce) toggleAnnounce.textContent = `Showing hex dump of File ${which}`;
   }
-  showA.addEventListener('click', () => selectFile('A'));
-  showB.addEventListener('click', () => selectFile('B'));
+  showA.addEventListener('click', () => selectFile('A', true));
+  showB.addEventListener('click', () => selectFile('B', true));
   selectFile('A');
 
   // Start focused on the first difference when there is one.
@@ -166,7 +179,9 @@ function makePanel(side: 'A' | 'B', label: string): Panel {
 
   const body = document.createElement('div');
   body.className = 'hexpanel-body';
-  body.setAttribute('role', 'img');
+  // A named region, NOT role="img": this element is focusable and scrollable,
+  // so presenting it to AT as a static image would contradict its behaviour.
+  body.setAttribute('role', 'region');
   body.setAttribute('aria-label', `Hex dump of ${label}`);
   body.tabIndex = 0;
   wrap.appendChild(body);

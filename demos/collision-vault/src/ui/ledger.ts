@@ -16,7 +16,7 @@ export function renderLedger(proof: PairProof, vectorsPassed: boolean): HTMLElem
 
   panel.append(
     el('div', { class: 'panel-head' }, [
-      el('h2', { id: 'ledger-title', text: '6 · Verification ledger' }),
+      el('h2', { id: 'ledger-title', text: '7 · Verification ledger' }),
       el('span', {
         class: `chip ${allPass ? 'chip-calm' : 'chip-alarm'}`
       }, [

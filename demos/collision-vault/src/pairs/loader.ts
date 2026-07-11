@@ -59,6 +59,31 @@ export async function verifyPairBytes(
   return da;
 }
 
+/**
+ * Hint the browser to fetch not-yet-viewed pair assets during idle time so
+ * switching pairs feels instant (the SHAttered PDFs are ~400 KB each).
+ * Low-priority `<link rel="prefetch">` hints, so nothing competes with the
+ * initial render or the currently loading pair.
+ */
+export function prefetchPairAssets(excludeId?: string): void {
+  const idle: (cb: () => void) => void =
+    typeof requestIdleCallback === 'function'
+      ? (cb) => requestIdleCallback(cb)
+      : (cb) => setTimeout(cb, 1500);
+  idle(() => {
+    for (const p of PAIRS) {
+      if (p.id === excludeId) continue;
+      for (const f of [p.fileA, p.fileB]) {
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.as = 'fetch';
+        link.href = assetUrl(f);
+        document.head.append(link);
+      }
+    }
+  });
+}
+
 /** Fetch + verify a single pair. Throws on any integrity violation. */
 export async function loadPair(entry: PairManifestEntry): Promise<LoadedPair> {
   const [a, b] = await Promise.all([fetchBytes(entry.fileA), fetchBytes(entry.fileB)]);

@@ -2,15 +2,16 @@ import './styles.css';
 
 import { HashClient } from './hashing/client';
 import type { HashAlgorithm } from './hashing/index';
-import { PAIRS, loadPair, type LoadedPair } from './pairs/loader';
+import { PAIRS, loadPair, prefetchPairAssets, type LoadedPair } from './pairs/loader';
 import type { PairManifestEntry } from './pairs/manifest';
 import { buildProof, type PairProof } from './pairs/proof';
-import { el } from './ui/common';
+import { el, fmt } from './ui/common';
 import { renderPairSelector } from './ui/pairSelector';
 import { createByteDiff } from './ui/byteDiff';
 import { renderDigestPanel, ALL_DEMO_ALGOS } from './ui/digestPanel';
 import { renderResistancePanel } from './ui/resistancePanel';
 import { renderExplainer } from './ui/explainer';
+import { renderStateTrace } from './ui/stateTrace';
 import { renderLedger } from './ui/ledger';
 import { renderTamper } from './ui/tamper';
 import { renderProofActions } from './ui/proofActions';
@@ -77,6 +78,9 @@ async function start(): Promise<void> {
   vectorsPassed = true;
   setStatus('calm', '✓', `Hash implementations validated against known test vectors${client.offMainThread ? ' · hashing off the main thread' : ''}.`);
   await showPair(selectedId);
+  // Warm the other pairs' assets (the SHAttered PDFs are ~400 KB each) during
+  // idle time so switching pairs feels instant.
+  prefetchPairAssets(selectedId);
 }
 
 // ── per-pair render ─────────────────────────────────────────────────────────
@@ -151,6 +155,7 @@ function renderNormal(proof: PairProof): void {
     fileEvidencePanel(proof),
     renderDigestPanel(entry, brokenDigest, resB[broken] ?? ''),
     renderExplainer(proof),
+    renderStateTrace(proof),
     renderResistancePanel(resA, resB),
     renderLedger(proof, vectorsPassed),
     renderTamper(proof, client, vectorsPassed)
@@ -164,7 +169,12 @@ function renderProofToolbar(proof: PairProof): HTMLElement {
     text: '▶ Presenter mode'
   });
   present.addEventListener('click', () => {
-    mountPresenter(results, proof, () => renderNormal(proof));
+    mountPresenter(results, proof, () => {
+      renderNormal(proof);
+      // Return focus to where the presenter was opened from (WCAG 2.4.3); the
+      // old button was replaced by the re-render, so target its successor.
+      results.querySelector<HTMLElement>('.present-btn')?.focus();
+    });
   });
   return el('div', { class: 'proof-toolbar' }, [renderProofActions(proof), present]);
 }
@@ -174,15 +184,17 @@ function buildIntro(): HTMLElement {
   const header = el('header', { class: 'intro' }, [
     el('h1', { text: 'Collision Vault' }),
     el('p', { class: 'tagline', text: 'Verifying real, published hash collisions (MD5 / SHA-1) — and why SHA-256 / SHA-3 resist them.' }),
-    el('p', {
-      class: 'intro-body',
-      html:
-        'This lab does <strong>not</strong> compute a fresh collision — finding one is a massive offline ' +
-        'computation (SHAttered was ≈2<sup>63</sup> SHA-1 operations). Instead it <strong>verifies ' +
-        'already-published, genuinely-different file pairs</strong> and recomputes their hashes live in ' +
-        'your browser: watch two different files produce one digest under a broken hash, while modern ' +
-        'hashes keep them apart. Everything runs offline; nothing is uploaded or stored.'
-    })
+    el(
+      'p',
+      { class: 'intro-body' },
+      fmt(
+        'This lab does **not** compute a fresh collision — finding one is a massive offline ' +
+          'computation (SHAttered was ≈2⁶³ SHA-1 operations). Instead it **verifies ' +
+          'already-published, genuinely-different file pairs** and recomputes their hashes live in ' +
+          'your browser: watch two different files produce one digest under a broken hash, while modern ' +
+          'hashes keep them apart. Everything runs offline; nothing is uploaded or stored.'
+      )
+    )
   ]);
   return header;
 }

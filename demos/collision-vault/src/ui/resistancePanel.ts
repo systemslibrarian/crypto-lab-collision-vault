@@ -3,7 +3,7 @@
 // collision-resistant hashes are unaffected.
 
 import { ALGORITHMS, type HashAlgorithm } from '../hashing/index';
-import { el, digestRow, statusChip } from './common';
+import { el, fmt, digestRow, statusChip } from './common';
 
 const CONTRAST_ALGOS: HashAlgorithm[] = ['sha-256', 'sha3-256', 'sha-512'];
 
@@ -22,7 +22,7 @@ export function renderResistancePanel(
 
   panel.append(
     el('div', { class: 'panel-head' }, [
-      el('h2', { id: 'resistance-panel-title', text: '5 · Modern hashes resist' }),
+      el('h2', { id: 'resistance-panel-title', text: '6 · Modern hashes resist' }),
       allDiffer
         ? statusChip('calm', '✓', 'DIFFERENT DIGESTS — RESISTANCE HOLDS')
         : statusChip('neutral', '…', 'computing')
@@ -30,12 +30,14 @@ export function renderResistancePanel(
   );
 
   panel.append(
-    el('p', {
-      class: 'note',
-      html:
+    el(
+      'p',
+      { class: 'note' },
+      fmt(
         'The exact same two files, hashed with collision-resistant functions. Each pair of ' +
-        'digests is <strong>different</strong> — exactly what a sound hash must do.'
-    })
+          'digests is **different** — exactly what a sound hash must do.'
+      )
+    )
   );
 
   for (const algo of CONTRAST_ALGOS) {
@@ -58,14 +60,16 @@ export function renderResistancePanel(
   }
 
   panel.append(
-    el('p', {
-      class: 'security-margin',
-      html:
-        '<strong>Security-margin context:</strong> the best generic collision attack needs about ' +
-        '2<sup>n/2</sup> work for an <em>n</em>-bit digest — ~2<sup>128</sup> for SHA-256/SHA3-256. ' +
-        'No collision attack beating that is publicly known for SHA-2 or SHA-3. Collisions are a ' +
-        'property of the <em>function</em>, not of hashing in general.'
-    })
+    el(
+      'p',
+      { class: 'security-margin' },
+      fmt(
+        '**Security-margin context:** the best generic collision attack needs about ' +
+          '2^(n/2) work for an *n*-bit digest — ~2¹²⁸ for SHA-256/SHA3-256. ' +
+          'No collision attack beating that is publicly known for SHA-2 or SHA-3. Collisions are a ' +
+          'property of the *function*, not of hashing in general.'
+      )
+    )
   );
 
   return panel;

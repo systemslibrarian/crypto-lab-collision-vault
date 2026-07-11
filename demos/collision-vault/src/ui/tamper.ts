@@ -8,7 +8,7 @@ import { ALGORITHMS, type HashAlgorithm } from '../hashing/index';
 import type { HashClient } from '../hashing/client';
 import { byteToHex, groupHex } from '../util/hex';
 import type { PairProof } from '../pairs/proof';
-import { el, statusChip, digestRow } from './common';
+import { el, fmt, statusChip, digestRow } from './common';
 
 const RECOMPUTE_ALGOS: HashAlgorithm[] = ['sha-256', 'sha3-256'];
 
@@ -37,7 +37,7 @@ export function renderTamper(proof: PairProof, client: HashClient, vectorsPassed
   const panel = el('section', { class: 'panel tamper-panel', 'aria-labelledby': 'tamper-title' });
   panel.append(
     el('div', { class: 'panel-head' }, [
-      el('h2', { id: 'tamper-title', text: '7 · Experiment: flip one bit' }),
+      el('h2', { id: 'tamper-title', text: '8 · Experiment: flip one bit' }),
       statusChip('neutral', '🧪', 'interactive')
     ]),
     el('p', { class: 'note', text: `The collision works only because every byte was crafted. Flip a single bit in one file and recompute: the ${brokenLabel} collision breaks and the digests diverge.` })
@@ -136,7 +136,7 @@ export function renderTamper(proof: PairProof, client: HashClient, vectorsPassed
     const s256 = res['sha-256'];
     if (s256) {
       block.append(
-        el('p', { class: 'note dim', html: `Modern hashes also change with that single bit — e.g. <code>SHA-256(tampered ${which}) = ${groupHex(s256).slice(0, 36)}…</code>` })
+        el('p', { class: 'note dim' }, fmt(`Modern hashes also change with that single bit — e.g. \`SHA-256(tampered ${which}) = ${groupHex(s256).slice(0, 36)}…\``))
       );
     }
     block.append(

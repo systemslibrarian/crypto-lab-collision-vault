@@ -15,11 +15,30 @@ export function el<K extends keyof HTMLElementTagNameMap>(
     if (v === undefined || v === false) continue;
     if (k === 'class') node.className = String(v);
     else if (k === 'text') node.textContent = String(v);
-    else if (k === 'html') node.innerHTML = String(v);
     else node.setAttribute(k, String(v));
   }
   for (const c of children) node.append(c);
   return node;
+}
+
+/**
+ * Build DOM nodes from a tiny markdown subset: `**strong**`, `*em*`, `` `code` ``.
+ * The safe replacement for innerHTML — input is never parsed as HTML, only ever
+ * turned into text nodes and strong/em/code elements.
+ */
+export function fmt(src: string): Node[] {
+  const nodes: Node[] = [];
+  const re = /\*\*([^*]+)\*\*|\*([^*]+)\*|`([^`]+)`/g;
+  let last = 0;
+  for (let m = re.exec(src); m; m = re.exec(src)) {
+    if (m.index > last) nodes.push(document.createTextNode(src.slice(last, m.index)));
+    if (m[1] !== undefined) nodes.push(el('strong', { text: m[1] }));
+    else if (m[2] !== undefined) nodes.push(el('em', { text: m[2] }));
+    else nodes.push(el('code', { text: m[3] }));
+    last = m.index + m[0].length;
+  }
+  if (last < src.length) nodes.push(document.createTextNode(src.slice(last)));
+  return nodes;
 }
 
 /** Copy text to the clipboard, with a fallback for non-secure contexts. */
