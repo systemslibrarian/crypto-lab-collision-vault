@@ -39,7 +39,7 @@
   --radius: 14px;
   --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
 
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
 }
 
@@ -57,16 +57,19 @@
   --alarm: #c11f3a;
   --alarm-bg: rgba(193, 31, 58, 0.08);
   --alarm-border: rgba(193, 31, 58, 0.45);
-  --good: #07814f;
+  /* Dark enough to stay ≥4.5:1 even stacked on the translucent --good-bg
+     tints (chips inside .is-ok panels reach only ~4.0:1 with #07814f). */
+  --good: #076a41;
   --good-bg: rgba(7, 129, 79, 0.08);
   --good-border: rgba(7, 129, 79, 0.4);
-  --shared: #9a6b00;
+  /* #9a6b00 is only ~4.1:1 on the gold --shared-bg tint; this passes (~5:1). */
+  --shared: #856000;
   --shared-bg: rgba(240, 179, 42, 0.22);
   /* Light theme: alarm is a dark red, so white text passes (~7:1). */
   --diff-bg: #c11f3a;
   --diff-fg: #ffffff;
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
 }
 
@@ -76,7 +79,7 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
 }
 
@@ -142,7 +145,7 @@ h3 {
 
 /* ── panels ──────────────────────────────────────────────────────────────── */
 .panel {
-  background: var(--panel);
+  background-color: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: clamp(0.9rem, 2.4vw, 1.4rem);
@@ -197,17 +200,17 @@ h3 {
 }
 .chip-alarm {
   color: var(--alarm);
-  background: var(--alarm-bg);
+  background-color: var(--alarm-bg);
   border-color: var(--alarm-border);
 }
 .chip-calm {
   color: var(--good);
-  background: var(--good-bg);
+  background-color: var(--good-bg);
   border-color: var(--good-border);
 }
 .chip-neutral {
   color: var(--muted);
-  background: var(--accent-soft);
+  background-color: var(--accent-soft);
   border-color: var(--border);
 }
 
@@ -230,12 +233,12 @@ h3 {
 }
 .status-alarm {
   color: var(--alarm);
-  background: var(--alarm-bg);
+  background-color: var(--alarm-bg);
   border-color: var(--alarm-border);
 }
 .status-calm {
   color: var(--good);
-  background: var(--good-bg);
+  background-color: var(--good-bg);
   border-color: var(--good-border);
 }
 .status-neutral {
@@ -250,7 +253,7 @@ h3 {
   padding: 0.4rem 0.7rem;
   border-radius: 8px;
   border: 1px solid var(--border);
-  background: var(--panel-strong);
+  background-color: var(--panel-strong);
   color: var(--text);
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
@@ -273,7 +276,7 @@ h3 {
   border-radius: var(--radius);
   padding: clamp(0.8rem, 2.2vw, 1.3rem);
   margin: 0;
-  background: var(--panel);
+  background-color: var(--panel);
 }
 .pair-selector legend {
   font-weight: 700;
@@ -293,7 +296,7 @@ h3 {
   border: 1.5px solid var(--border);
   border-radius: 12px;
   cursor: pointer;
-  background: var(--panel-strong);
+  background-color: var(--panel-strong);
   transition: border-color 0.15s, transform 0.05s;
 }
 .pair-card:hover {
@@ -340,7 +343,7 @@ h3 {
 .badge-danger {
   color: var(--alarm);
   border-color: var(--alarm-border);
-  background: var(--alarm-bg);
+  background-color: var(--alarm-bg);
 }
 .badge-neutral {
   color: var(--muted);
@@ -382,12 +385,12 @@ h3 {
   white-space: nowrap;
   overflow-x: auto;
   padding: 0.3rem 0.5rem;
-  background: rgba(0, 0, 0, 0.22);
+  background-color: rgba(0, 0, 0, 0.22);
   border-radius: 7px;
   letter-spacing: 0.02em;
 }
 [data-theme='light'] .digest-value {
-  background: var(--panel-strong);
+  background-color: var(--panel-strong);
 }
 .digest-value.pending {
   color: var(--muted);
@@ -405,7 +408,7 @@ h3 {
   font-size: 1.02rem;
   padding: 0.7rem 0.9rem;
   border-left: 4px solid var(--alarm);
-  background: var(--alarm-bg);
+  background-color: var(--alarm-bg);
   border-radius: 0 8px 8px 0;
 }
 .verdict-icon {
@@ -419,7 +422,7 @@ h3 {
   border-radius: 10px;
   padding: 0.6rem 0.8rem;
   margin: 0.7rem 0;
-  background: var(--panel);
+  background-color: var(--panel);
 }
 .resist-head {
   display: flex;
@@ -476,31 +479,36 @@ h3 {
 }
 .sch-shared {
   flex: 2;
-  background: var(--shared-bg);
+  background-color: var(--shared-bg);
   color: var(--shared);
   border: 1px solid var(--shared);
 }
 .sch-chosenA {
   flex: 2;
-  background: var(--accent-soft);
+  background-color: var(--accent-soft);
   color: var(--accent-text);
   border: 1px dashed var(--accent);
 }
 .sch-chosenB {
   flex: 2;
-  background: rgba(120, 120, 255, 0.14);
+  background-color: rgba(120, 120, 255, 0.14);
   color: #8a8aff;
   border: 1px dashed #8a8aff;
 }
+[data-theme='light'] .sch-chosenB {
+  /* #8a8aff is only ~2.5:1 on the light lilac tint — darker indigo (~5.5:1). */
+  color: #4a4ad8;
+  border-color: #4a4ad8;
+}
 .sch-blocks {
   flex: 1.4;
-  background: var(--alarm-bg);
+  background-color: var(--alarm-bg);
   color: var(--alarm);
   border: 1px solid var(--alarm-border);
 }
 .sch-tail {
   flex: 1;
-  background: var(--panel-strong);
+  background-color: var(--panel-strong);
   color: var(--muted);
   border: 1px solid var(--border);
 }
@@ -518,7 +526,7 @@ h3 {
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 0.8rem;
-  background: var(--panel-strong);
+  background-color: var(--panel-strong);
 }
 .explainer-card h3 {
   margin: 0 0 0.4rem;
@@ -579,12 +587,12 @@ h3 {
   border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
-  background: var(--panel);
+  background-color: var(--panel);
   min-width: 0;
 }
 .hexpanel-head {
   padding: 0.4rem 0.7rem;
-  background: var(--panel-strong);
+  background-color: var(--panel-strong);
   border-bottom: 1px solid var(--border);
   font-weight: 700;
   font-size: 0.82rem;
@@ -611,19 +619,18 @@ h3 {
   text-align: center;
 }
 .hb.diff {
-  background: var(--diff-bg);
+  background-color: var(--diff-bg);
   color: var(--diff-fg);
   border-radius: 3px;
   font-weight: 700;
 }
 .hb.shared {
-  background: var(--shared-bg);
+  background-color: var(--shared-bg);
   color: var(--shared);
   border-radius: 3px;
 }
 .hb.void {
   color: var(--muted);
-  opacity: 0.5;
 }
 .hexascii {
   color: var(--muted);
@@ -648,10 +655,10 @@ h3 {
   margin-right: 0.2rem;
 }
 .swatch-shared {
-  background: var(--shared);
+  background-color: var(--shared);
 }
 .swatch-diff {
-  background: var(--alarm);
+  background-color: var(--alarm);
 }
 .pdf-links {
   font-size: 0.9rem;
@@ -679,14 +686,14 @@ h3 {
   font-family: var(--mono);
   font-size: 0.78rem;
   white-space: pre-wrap;
-  background: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.25);
   padding: 0.6rem;
   border-radius: 8px;
   color: var(--alarm);
   overflow-x: auto;
 }
 [data-theme='light'] .error-panel pre.error-details {
-  background: var(--panel-strong);
+  background-color: var(--panel-strong);
 }
 
 /* ── non-goals ───────────────────────────────────────────────────────────── */
@@ -786,15 +793,15 @@ a.btn-sm {
   padding: 0.5rem 0.65rem;
   border: 1px solid var(--border);
   border-radius: 9px;
-  background: var(--panel);
+  background-color: var(--panel);
 }
 .ledger-item.pass {
   border-color: var(--good-border);
-  background: var(--good-bg);
+  background-color: var(--good-bg);
 }
 .ledger-item.fail {
   border-color: var(--alarm-border);
-  background: var(--alarm-bg);
+  background-color: var(--alarm-bg);
 }
 .ledger-mark {
   font-weight: 800;
@@ -850,11 +857,17 @@ a.btn-sm {
 .tamper-select {
   font: inherit;
   font-size: 0.85rem;
-  padding: 0.35rem 0.5rem;
+  padding: 0.35rem 1.8rem 0.35rem 0.5rem;
   border-radius: 8px;
   border: 1px solid var(--border);
-  background: var(--input-bg, var(--panel-strong));
+  background-color: var(--input-bg, var(--panel-strong));
   color: var(--text);
+  /* Replace the native arrow with a theme-neutral chevron so the control
+     renders consistently (and passes contrast checks) in both themes. */
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%238b949e' stroke-width='2' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
 }
 .tamper-flip {
   border-color: var(--accent);
@@ -869,23 +882,23 @@ a.btn-sm {
 }
 .tamper-result.is-ok {
   border-color: var(--good-border);
-  background: var(--good-bg);
+  background-color: var(--good-bg);
 }
 .tamper-result.is-alarm {
   border-color: var(--alarm-border);
-  background: var(--alarm-bg);
+  background-color: var(--alarm-bg);
 }
 .tamper-change {
   margin: 0 0 0.5rem;
 }
 .tamper-change code,
 .ledger-detail {
-  background: rgba(0, 0, 0, 0.18);
+  background-color: rgba(0, 0, 0, 0.18);
   padding: 0.05rem 0.35rem;
   border-radius: 5px;
 }
 [data-theme='light'] .tamper-change code {
-  background: var(--panel-strong);
+  background-color: var(--panel-strong);
 }
 
 /* ── minimap ─────────────────────────────────────────────────────────────── */
@@ -907,11 +920,11 @@ a.btn-sm {
   height: 100%;
 }
 .minimap-shared {
-  background: var(--shared-bg);
+  background-color: var(--shared-bg);
   border-right: 1px solid var(--shared);
 }
 .minimap-diff {
-  background: var(--alarm);
+  background-color: var(--alarm);
   min-width: 2px;
 }
 .minimap-legend {
@@ -959,7 +972,7 @@ a.btn-sm {
   border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
-  background: var(--panel-strong);
+  background-color: var(--panel-strong);
 }
 .pdf-cap {
   padding: 0.4rem 0.6rem;
@@ -972,7 +985,7 @@ a.btn-sm {
   height: 320px;
   border: 0;
   display: block;
-  background: #fff;
+  background-color: #fff;
 }
 .pdf-fallback {
   padding: 1rem;
@@ -990,7 +1003,7 @@ a.btn-sm {
   overflow: auto;
   border-top: 3px solid var(--accent);
   padding: clamp(1rem, 4vw, 2.5rem);
-  background: var(--bg);
+  background-color: var(--bg);
   outline: none;
 }
 body.presenter-active {
@@ -1096,13 +1109,13 @@ body.presenter-active {
 }
 .trace-cv {
   font-family: var(--mono);
-  background: rgba(0, 0, 0, 0.18);
+  background-color: rgba(0, 0, 0, 0.18);
   padding: 0.1rem 0.4rem;
   border-radius: 5px;
   white-space: nowrap;
 }
 [data-theme='light'] .trace-cv {
-  background: var(--panel-strong);
+  background-color: var(--panel-strong);
 }
 .trace-cv-diff {
   color: var(--accent-text);
@@ -1115,13 +1128,15 @@ body.presenter-active {
 }
 .trace-converge th,
 .trace-converge td {
-  background: var(--alarm-bg);
+  background-color: var(--alarm-bg);
   border-bottom-color: var(--alarm-border);
 }
-/* The translucent alarm chip on the (also alarm-tinted) converge row stacks to
-   ~4.45:1 — just under AA. A solid page background restores full contrast. */
-.trace-converge .chip-alarm {
-  background: var(--bg);
+/* Translucent alarm chips on already alarm-tinted surfaces (converge rows,
+   .is-alarm panels/results) stack to ~4.45:1 — just under AA. A solid page
+   background restores full contrast. */
+.trace-converge .chip-alarm,
+.is-alarm .chip-alarm {
+  background-color: var(--bg);
 }
 
 /* ── print: a citable proof on paper ─────────────────────────────────────── */
@@ -1151,7 +1166,7 @@ body.presenter-active {
     --shadow: none;
   }
   body {
-    background: #ffffff;
+    background-color: #ffffff;
     color: #111111;
   }
   /* Interactive-only chrome has no meaning on paper. */
