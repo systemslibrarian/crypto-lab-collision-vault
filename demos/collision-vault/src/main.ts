@@ -5,7 +5,7 @@ import type { HashAlgorithm } from './hashing/index';
 import { PAIRS, loadPair, prefetchPairAssets, type LoadedPair } from './pairs/loader';
 import type { PairManifestEntry } from './pairs/manifest';
 import { buildProof, type PairProof } from './pairs/proof';
-import { el, fmt } from './ui/common';
+import { el } from './ui/common';
 import { renderPairSelector } from './ui/pairSelector';
 import { createByteDiff } from './ui/byteDiff';
 import { renderDigestPanel, ALL_DEMO_ALGOS } from './ui/digestPanel';
@@ -181,20 +181,27 @@ function renderProofToolbar(proof: PairProof): HTMLElement {
 
 // ── panels built here (intro / evidence / status / errors) ──────────────────
 function buildIntro(): HTMLElement {
-  const header = el('header', { class: 'intro' }, [
-    el('h1', { text: 'Collision Vault' }),
-    el('p', { class: 'tagline', text: 'Verifying real, published hash collisions (MD5 / SHA-1) — and why SHA-256 / SHA-3 resist them.' }),
-    el(
-      'p',
-      { class: 'intro-body' },
-      fmt(
-        'This lab does **not** compute a fresh collision — finding one is a massive offline ' +
-          'computation (SHAttered was ≈2⁶³ SHA-1 operations). Instead it **verifies ' +
-          'already-published, genuinely-different file pairs** and recomputes their hashes live in ' +
-          'your browser: watch two different files produce one digest under a broken hash, while modern ' +
-          'hashes keep them apart. Everything runs offline; nothing is uploaded or stored.'
-      )
-    )
+  const header = el('header', { class: 'cl-hero' }, [
+    el('div', { class: 'cl-hero-main' }, [
+      el('h1', { class: 'cl-hero-title', text: 'Collision Vault' }),
+      el('p', {
+        class: 'cl-hero-sub',
+        text: 'Hash collisions · MD5 / SHA-1 broken · SHA-256 / SHA-3 resist'
+      }),
+      el('p', {
+        class: 'cl-hero-desc',
+        text:
+          'Verify published MD5 and SHA-1 collision pairs live — two genuinely different files hashing to one digest — and watch SHA-256 / SHA-3 keep them apart, with the Merkle–Damgård chaining values traced as they re-converge.'
+      })
+    ]),
+    el('aside', { class: 'cl-hero-why', 'aria-label': 'Why it matters' }, [
+      el('span', { class: 'cl-hero-why-label', text: 'WHY IT MATTERS' }),
+      el('p', {
+        class: 'cl-hero-why-text',
+        text:
+          'A digest is meant to prove a file is unaltered. Once a hash collides, an attacker can swap a benign file for a malicious one with the same checksum — forging certificates, signatures, or downloads. MD5 and SHA-1 fell here; SHA-256 / SHA-3 hold.'
+      })
+    ])
   ]);
   return header;
 }
