@@ -87,8 +87,9 @@ export const PAIRS: PairManifestEntry[] = [
     expectedBrokenDigest: '79054025255fb1a26e4bc422aef54eb4',
     caption: 'The classic 128-byte MD5 collision blocks that broke MD5 in 2004.',
     history:
-      'Xiaoyun Wang and Hongbo Yu announced the first practical MD5 collision in 2004, ' +
-      'overturning the assumption that MD5 was collision-resistant. This is the canonical ' +
+      'Xiaoyun Wang, Dengguo Feng, Xuejia Lai and Hongbo Yu announced the first practical ' +
+      'MD5 collisions in August 2004; Wang and Yu published the full attack at EUROCRYPT ' +
+      '2005, overturning the assumption that MD5 was collision-resistant. This is the canonical ' +
       'pair of two 128-byte messages: a shared prefix followed by a pair of near-collision ' +
       'blocks that differ in only a handful of bytes, yet yield the identical MD5 digest ' +
       '79054025255fb1a26e4bc422aef54eb4. Marc Stevens later turned this into the ' +

@@ -7,7 +7,7 @@ functions **MD5** (RFC 1321) and **SHA-1** (FIPS 180-4), and contrasts them with
 collision-resistant **SHA-256** (FIPS 180-4) and **SHA3-256** (FIPS 202). These are
 cryptographic hash functions: unkeyed, public functions that map arbitrary input to a
 fixed-size digest, whose core promise is *collision resistance* — it should be infeasible
-to find two different inputs with the same digest. MD5 (Wang & Yu, 2004) and SHA-1
+to find two different inputs with the same digest. MD5 (Wang & Yu, EUROCRYPT 2005) and SHA-1
 (SHAttered, 2017) no longer hold that promise, and this demo recomputes digests live in the
 browser over bundled, genuinely different file pairs to prove it. It does **not** find new
 collisions — that is a massive offline computation — it verifies real ones and shows the
