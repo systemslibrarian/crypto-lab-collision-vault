@@ -3,7 +3,7 @@
 ## What It Is
 
 Collision Vault verifies **real, already-published hash collisions** for the broken hash
-functions **MD5** (RFC 1321) and **SHA-1** (FIPS 180), and contrasts them with the
+functions **MD5** (RFC 1321) and **SHA-1** (FIPS 180-4), and contrasts them with the
 collision-resistant **SHA-256** (FIPS 180-4) and **SHA3-256** (FIPS 202). These are
 cryptographic hash functions: unkeyed, public functions that map arbitrary input to a
 fixed-size digest, whose core promise is *collision resistance* — it should be infeasible
@@ -77,5 +77,7 @@ No environment variables are required. Everything runs client-side with no backe
 - [crypto-lab-mac-race](https://systemslibrarian.github.io/crypto-lab-mac-race/) — HMAC, CMAC, Poly1305, and GHASH, the keyed-hash counterpart to plain hashing.
 
 ---
+
+*One of 170+ browser demos in the [Crypto Lab](https://crypto-lab.systemslibrarian.dev/) suite.*
 
 *"So whether you eat or drink or whatever you do, do it all for the glory of God." — 1 Corinthians 10:31*
