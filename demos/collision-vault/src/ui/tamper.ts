@@ -8,6 +8,7 @@ import { ALGORITHMS, type HashAlgorithm } from '../hashing/index';
 import type { HashClient } from '../hashing/client';
 import { byteToHex, groupHex } from '../util/hex';
 import type { PairProof } from '../pairs/proof';
+import { craftedRegion } from './explainer';
 import { el, fmt, statusChip, digestRow } from './common';
 
 const RECOMPUTE_ALGOS: HashAlgorithm[] = ['sha-256', 'sha3-256'];
@@ -19,13 +20,26 @@ interface OffsetChoice {
 
 function offsetChoices(proof: PairProof): OffsetChoice[] {
   const choices: OffsetChoice[] = [];
+  const total = Math.max(proof.a.length, proof.b.length);
   const fd = proof.firstDiff < 0 ? 0 : proof.firstDiff;
   if (proof.shared > 0) {
     choices.push({ offset: Math.floor(proof.shared / 2), label: `byte ${Math.floor(proof.shared / 2)} (inside shared prefix)` });
   }
   choices.push({ offset: fd, label: `byte ${fd} (first difference)` });
-  const mid = Math.min(fd + 32, Math.max(proof.a.length, proof.b.length) - 1);
-  choices.push({ offset: mid, label: `byte ${mid} (inside crafted block)` });
+
+  // "Inside the crafted block" is a claim about where the near-collision blocks
+  // are, so take it from the same measurement the explainer uses (the state
+  // trace's diverge -> re-converge window) instead of guessing "first difference
+  // + 32". When the trace is unavailable craftedRegion() returns its estimate
+  // and says so via blocks === null, and the label is hedged to match.
+  const region = craftedRegion(proof, total);
+  const mid = Math.min(Math.max(region.start + 32, region.start), Math.max(region.end - 1, region.start));
+  choices.push({
+    offset: Math.min(mid, total - 1),
+    label: region.blocks
+      ? `byte ${Math.min(mid, total - 1)} (inside crafted blocks ${region.blocks.from}–${region.blocks.to})`
+      : `byte ${Math.min(mid, total - 1)} (inside estimated crafted region)`
+  });
   return choices;
 }
 

@@ -79,15 +79,22 @@ function summaryLine(proof: PairProof, cmp: TraceComparison): HTMLElement {
     // never assert what the data doesn't show.
     return el('p', { class: 'note', text: 'The states never diverge and re-converge for this input.' });
   }
+  // Where the states split is read off the trace, never off the manifest's
+  // declared attack type: the sentence has to describe what was measured for
+  // THESE bytes, not what a chosen-prefix pair is expected to look like.
   const divergeWhere =
-    proof.entry.type === 'chosen-prefix'
-      ? `from the very first block — the attacker-chosen prefixes differ from byte 0`
+    divergesAt === 0
+      ? `after the very first block (the files already differ at byte ${proof.firstDiff.toLocaleString()})`
       : `after block ${divergesAt} (${blockRange(divergesAt, proof.a.length)})`;
+  const chosenNote =
+    proof.entry.type === 'chosen-prefix' && proof.firstDiff === 0
+      ? ' — the attacker-chosen prefixes differ from byte 0, so there is no shared start at all'
+      : '';
   return el('p', { class: 'trace-summary' }, [
     statusChip('alarm', '⚠', `states re-converge after block ${convergesAt}`),
     document.createTextNode(' '),
     ...fmt(
-      `Measured live: the internal states diverge ${divergeWhere}, then the crafted blocks force ` +
+      `Measured live: the internal states diverge ${divergeWhere}${chosenNote}, then the crafted blocks force ` +
         `them back together after block ${convergesAt}. Every remaining block is processed from an ` +
         `**identical state over identical bytes** — the collision is locked in long before the end of the file.`
     )
