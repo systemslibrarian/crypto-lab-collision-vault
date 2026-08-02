@@ -11,6 +11,7 @@
   --panel: #171115;
   --panel-strong: #1f1418;
   --border: #3a2630;
+  --control-border: #80636e;
   --text: #f3e9ec;
   --muted: #c2a8b1;
   --accent-soft: rgba(214, 69, 93, 0.16);
@@ -50,6 +51,7 @@
   --panel: #ffffff;
   --panel-strong: #f3e9ec;
   --border: #e2cdd4;
+  --control-border: #765964;
   --text: #25151b;
   --muted: #74545f;
   --accent-soft: rgba(214, 69, 93, 0.1);
@@ -850,7 +852,7 @@ a.btn-sm {
   font-size: 0.85rem;
   padding: 0.35rem 1.8rem 0.35rem 0.5rem;
   border-radius: 8px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--control-border);
   background-color: var(--input-bg, var(--panel-strong));
   color: var(--text);
   /* Replace the native arrow with a theme-neutral chevron so the control
