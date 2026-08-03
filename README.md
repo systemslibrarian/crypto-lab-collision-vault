@@ -40,7 +40,18 @@ byte-diff viewer and whole-file minimap, the broken-hash digest panel, an
 identical-vs-chosen-prefix explainer, a block-by-block trace of the hash's internal state
 showing the two files' chaining values diverge and get forced back together by the crafted
 blocks, the SHA-256/SHA-3 resistance contrast, a verification ledger, a one-byte "tamper"
-experiment that breaks the collision, and a keyboard-driven presenter mode.
+experiment that breaks the collision, a "mint your own colliding pair" panel that appends bytes
+you type to both halves and recomputes — turning the published pair into a brand-new collision
+at a digest that did not exist before you pressed the button — and a keyboard-driven presenter
+mode.
+
+That extension panel first measures the three conditions that make a pair *suffix-closed* (equal
+lengths, equal un-padded chaining values after the last complete 64-byte block, identical tail
+bytes), predicts the outcome from them, and only then hashes; the verdict is a function of the
+prediction and the measured digests, and says so loudly if the two ever disagree. Appending
+different bytes to the two halves, or to only one of them, breaks the collision — both are
+selectable, and both are asserted in the browser suite. This is *not* the length-extension
+attack (which forges `H(secret || m || pad || ext)` without the secret); nothing here is secret.
 
 ## What Can Go Wrong
 

@@ -187,6 +187,113 @@ export function traceHash(algo: TraceableAlgorithm, bytes: Uint8Array): HashTrac
   };
 }
 
+/** Chaining value after each FULL 64-byte block of `bytes`, with NO
+ *  Merkle–Damgård padding applied — the state the compression function would be
+ *  in if the message carried on. Trailing bytes that do not fill a block are not
+ *  processed and are reported separately by `extensionPrecondition`.
+ *
+ *  This is a different quantity from `traceHash`'s last entry (which includes
+ *  the padding block and IS the digest). Two files can share a digest while
+ *  their un-padded states differ, so the extension property has to be decided
+ *  from this, not from the digests. */
+export function traceRawBlocks(algo: TraceableAlgorithm, bytes: Uint8Array): string[] {
+  const fullBlocks = Math.floor(bytes.length / 64);
+  // Copy into a fresh, offset-0 buffer: `bytes` may be a subarray view.
+  const buf = bytes.slice(0, fullBlocks * 64);
+  const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
+
+  const state =
+    algo === 'md5'
+      ? new Uint32Array([0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476])
+      : new Uint32Array([0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0]);
+  const compress = algo === 'md5' ? md5Compress : sha1Compress;
+  const stateHex = algo === 'md5' ? md5StateHex : sha1StateHex;
+
+  const cvs: string[] = [];
+  for (let i = 0; i < fullBlocks; i++) {
+    compress(state, view, i * 64);
+    cvs.push(stateHex(state));
+  }
+  return cvs;
+}
+
+/** Whether appending the same bytes to both files keeps them colliding, and why. */
+export interface ExtensionPrecondition {
+  /** Both files are the same byte length, so every appended byte lands at the
+   *  same offset and the padded length field ends up identical. */
+  sameLength: boolean;
+  /** Number of complete 64-byte blocks each file contributes. */
+  fullBlocks: number;
+  /** Bytes past the last complete block (0–63). */
+  tailBytes: number;
+  /** Un-padded chaining values agree after the last complete block. */
+  stateEqualAfterFullBlocks: boolean;
+  /** The leftover tail bytes are byte-for-byte identical. */
+  tailEqual: boolean;
+  /** First block index from which the un-padded states agree and never part
+   *  again (-1 when they never agree, or when there are no full blocks). */
+  rawConvergesAt: number;
+  /** All three conditions hold ⇒ for ANY suffix S, H(A‖S) = H(B‖S). */
+  holds: boolean;
+}
+
+/**
+ * Decide, from the files themselves, whether this collision is *suffix-closed*:
+ * whether appending identical bytes to both halves leaves the digests equal.
+ *
+ * The argument is exact, not statistical. If the two files feed the compression
+ * function the same state after their last complete block, and their leftover
+ * tail bytes match, and they are the same length, then every block of A‖S and
+ * B‖S is processed from an identical state over identical bytes — including the
+ * padding block, whose length field depends only on the (equal) total length.
+ * The digests therefore cannot differ. Any one of the three failing and the
+ * guarantee is gone, so all three are measured rather than assumed.
+ */
+export function extensionPrecondition(
+  algo: TraceableAlgorithm,
+  a: Uint8Array,
+  b: Uint8Array
+): ExtensionPrecondition {
+  const sameLength = a.length === b.length;
+  const fullBlocks = Math.min(Math.floor(a.length / 64), Math.floor(b.length / 64));
+  const cvsA = traceRawBlocks(algo, a);
+  const cvsB = traceRawBlocks(algo, b);
+
+  const stateEqualAfterFullBlocks =
+    fullBlocks === 0
+      ? true // both start from the same IV; nothing has been absorbed yet
+      : cvsA[fullBlocks - 1] === cvsB[fullBlocks - 1];
+
+  let rawConvergesAt = -1;
+  if (cvsA.length === cvsB.length && cvsA.length > 0) {
+    for (let i = cvsA.length - 1; i >= 0; i--) {
+      if (cvsA[i] !== cvsB[i]) break;
+      rawConvergesAt = i;
+    }
+  }
+
+  const tailStart = fullBlocks * 64;
+  let tailEqual = sameLength;
+  if (tailEqual) {
+    for (let i = tailStart; i < a.length; i++) {
+      if (a[i] !== b[i]) {
+        tailEqual = false;
+        break;
+      }
+    }
+  }
+
+  return {
+    sameLength,
+    fullBlocks,
+    tailBytes: Math.max(a.length, b.length) - tailStart,
+    stateEqualAfterFullBlocks,
+    tailEqual,
+    rawConvergesAt,
+    holds: sameLength && stateEqualAfterFullBlocks && tailEqual
+  };
+}
+
 export interface TraceComparison {
   a: HashTrace;
   b: HashTrace;

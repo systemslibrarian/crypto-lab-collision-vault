@@ -1202,3 +1202,62 @@ body.presenter-active {
   color: var(--muted);
   margin-top: 2rem;
 }
+
+/* ── 9 · mint your own colliding pair (suffix extension) ─────────────────── */
+.extend-precondition {
+  margin: 0.7rem 0 0.2rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background-color: var(--panel-strong);
+}
+.extend-checks {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.extend-check {
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+.extend-verdict-pre {
+  margin: 0.5rem 0 0;
+}
+.extend-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.5rem 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.extend-text {
+  font-family: var(--mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0.45rem 0.55rem;
+  border-radius: 8px;
+  border: 1px solid var(--control-border);
+  background-color: var(--input-bg, var(--panel-strong));
+  color: var(--text);
+  resize: vertical;
+}
+.extend-run {
+  border-color: var(--accent);
+  color: var(--accent-text);
+  font-weight: 700;
+}
+.extend-sizes,
+.extend-prediction {
+  margin: 0 0 0.45rem;
+  font-size: 0.86rem;
+}
+.extend-newness {
+  margin-top: 0.55rem;
+}

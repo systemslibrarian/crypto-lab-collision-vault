@@ -14,6 +14,7 @@ import { renderExplainer } from './ui/explainer';
 import { renderStateTrace } from './ui/stateTrace';
 import { renderLedger } from './ui/ledger';
 import { renderTamper } from './ui/tamper';
+import { renderExtend } from './ui/extend';
 import { renderProofActions } from './ui/proofActions';
 import { renderMinimap } from './ui/byteMap';
 import { renderPdfPreview } from './ui/pdfPreview';
@@ -158,7 +159,8 @@ function renderNormal(proof: PairProof): void {
     renderStateTrace(proof),
     renderResistancePanel(resA, resB),
     renderLedger(proof, vectorsPassed),
-    renderTamper(proof, client, vectorsPassed)
+    renderTamper(proof, client, vectorsPassed),
+    renderExtend(proof, client)
   );
 }
 
@@ -209,7 +211,7 @@ function buildIntro(): HTMLElement {
 function buildNonGoals(): HTMLElement {
   const items: Array<[string, string]> = [
     ['Not collision-finding', 'This verifies published pairs. Real collisions are found offline with enormous compute (e.g. GPU clusters running differential-path search like HashClash / the SHAttered attack).'],
-    ['Not length-extension', 'That Merkle–Damgård weakness is a different demo — see Babel Hash / MAC Race.'],
+    ['Not length-extension', 'Section 9 grows an existing collision by appending bytes to both halves; that is not the length-extension attack, which forges H(secret‖m‖pad‖ext) from H(secret‖m) without the secret — a different demo (Babel Hash / MAC Race).'],
     ['Not preimage attacks', 'Collision resistance (find any two colliding inputs) ≠ preimage (invert a digest) ≠ second-preimage (match a given input). This lab is about collisions only.'],
     ['Nothing persisted', 'No backend, no network at runtime, no telemetry, no storage.']
   ];
