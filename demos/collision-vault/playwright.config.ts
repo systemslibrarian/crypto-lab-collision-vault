@@ -3,7 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 // E2E + accessibility checks for the browser proof path. The webServer builds
 // the site and serves it under the real Pages base path so asset URLs match
 // production. Tests live in ./e2e (kept out of the Vitest unit suite).
-const PORT = 4329;
+const PORT = 4719;
 const BASE = `http://localhost:${PORT}/crypto-lab-collision-vault/`;
 
 export default defineConfig({
