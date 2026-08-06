@@ -54,7 +54,7 @@ jobs:
         working-directory: demos/collision-vault
         run: npm run test:e2e
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: demos/collision-vault/dist
 
