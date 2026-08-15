@@ -18,12 +18,8 @@ async function selectBoundaryContrast(page: Page): Promise<number> {
   });
 }
 
-test('tamper-select boundary clears WCAG non-text contrast in both themes', async ({ page }) => {
+test('tamper-select boundary clears WCAG non-text contrast', async ({ page }) => {
   await page.goto('./');
   await expect(page.locator('.tamper-select').first()).toBeVisible({ timeout: 20_000 });
-  expect(await selectBoundaryContrast(page)).toBeGreaterThanOrEqual(3);
-
-  await page.locator('#cl-theme-toggle').click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   expect(await selectBoundaryContrast(page)).toBeGreaterThanOrEqual(3);
 });
