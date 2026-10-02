@@ -185,6 +185,17 @@ h3 {
   letter-spacing: 0.04em;
   border: 1px solid transparent;
   white-space: nowrap;
+  /* A chip holding a whole verdict sentence cannot stay on one line at phone
+     width. The Extend panel's precondition chip measured 481px at a 390px
+     viewport and pushed the document sideways by 136px in Chromium and WebKit
+     alike, against WCAG 1.4.10. Capping the chip and letting its TEXT wrap keeps
+     the pill shape and the icon-beside-text layout for every short chip, which is
+     what `nowrap` is here for, while a long one wraps inside its own box. */
+  max-width: 100%;
+}
+.chip-text {
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .chip-icon {
   font-size: 0.95em;
