@@ -92,3 +92,20 @@ No environment variables are required. Everything runs client-side with no backe
 *Part of the [Crypto Lab](https://crypto-lab.systemslibrarian.dev/) suite.*
 
 *"So whether you eat or drink or whatever you do, do it all for the glory of God." — 1 Corinthians 10:31*
+
+## Native TypeScript and lint tooling
+
+The build and CI run native TypeScript 7.0.2 through `tsc`. ESLint still needs
+a JavaScript compiler API, so the lock uses Microsoft's
+[official side-by-side aliases](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-60):
+`@typescript/native` supplies the native compiler, while the `typescript`
+compatibility wrapper 6.0.2 exposes the locked TypeScript 6.0.3 JavaScript API.
+The separate `tsc6` executable is not used for the build. The existing Node
+types are explicit for the included file-reading test fixtures; TypeScript 7
+no longer includes installed ambient packages automatically. DOM, WebWorker,
+strict checks, and the publish-request controls remain enabled.
+
+`npm run test:tooling` checks the real native compiler and API, all 44 existing
+lint scopes and five ignored output directories, and positive/negative
+compiler and lint behavior. `npm run lint` runs those controls before the
+existing ESLint command.
