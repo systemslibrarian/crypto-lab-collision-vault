@@ -1,0 +1,24 @@
+{
+  "source": "https://eprint.iacr.org/2026/1120",
+  "retrievedFrom": "https://eprint.iacr.asia/2026/1120.pdf",
+  "sourcePdfSha256": "1242eac38c5e096fe1b9b0cb9443bea64f9c8c2b74de5fa6b0b85c35d09c1978",
+  "revision": "2026-09-09",
+  "table": 2,
+  "page": 14,
+  "convention": "Big-endian 32-bit words; standard SHA-256 IV; 36 steps 0..35 per compression block; feed-forward after each block; two supplied blocks; no additional padding for the table value.",
+  "messageAHex": "d7c6ac053be3567b33c02b263a6dfd82ed46810e8dacae353e00458426d2999239cff6590acc22238e77b3b0cc7f4bba9ff3abea17606f86ce693676c3bc18aa09abc4250e8b812185808046fadb1bca394268e3b9dfbd34ae15684574169a811ea03337a3210f1679b8201791059d1097294bab65ceec9c89c67ae2ac5eb7f9",
+  "messageBHex": "d7c6ac053be3567b33c02b263a6dfd82ed46810e8dacae353e00458426d2999239cff6590acc22238e77b3b0cc7f4bba9ff3abea17606f86ce693676c3bc18aa09abc4250e8b812185808046fadb1bca394268e399dfbd34aa55604554169a811fa123bda329031679b8201791059d1097294bab618ee49ca9c67ae2ac5eb7f9",
+  "expectedCompressionHex": "79df307814339285d39ae368142866bcba063acffa4431c6a5d74825c4be00db",
+  "fullSha256A": "fc3d142874455bd7ba8955078e5b2b1b2390377d8c4f668d0fae4b98fc0f39da",
+  "fullSha256B": "fec178d5055397c61a3b92a1de7aeb4c8482ffdfcfbc91b057b641f19033308d",
+  "title": "Pushing Collision Attacks on SHA-2 to 39 Steps",
+  "authors": [
+    "Yingxin Li",
+    "Zhuolong Zhang",
+    "Muzhou Li",
+    "Fukang Liu",
+    "Haifeng Qian",
+    "Jinwei Zhu"
+  ],
+  "retrieved": "2026-10-12"
+}

@@ -112,4 +112,11 @@ existing ESLint command.
 
 ## Reduced-round research context
 
-The live demo links [2026/232](https://eprint.iacr.org/2026/232) and [2026/1120](https://eprint.iacr.org/2026/1120), distinguishes reported reduced-round results from standard full-round SHA-2, and identifies the September result as a preprint. The reported 36-step pair is not verified by this lab; an executable extension remains contingent on retrieving and independently checking its exact conventions.
+The live demo links [2026/232](https://eprint.iacr.org/2026/232) and [2026/1120](https://eprint.iacr.org/2026/1120), distinguishes reported reduced-round results from standard full-round SHA-2, and identifies the September result as a preprint. The separate verifier below now checks the supplied Table 2 36-step pair under explicit compression conventions, with independent checks and full SHA-256 contrast.
+
+
+## Published reduced-SHA-256 pair
+
+The separate research panel now recomputes the two-block, 36-step collision in Table 2 (p. 14) of [Li et al., ePrint 2026/1120, revised 9 September 2026](https://eprint.iacr.org/2026/1120). It uses the standard SHA-256 IV, big-endian words, steps 0–35 and feed-forward after each block, without appending padding for the reported table value. This is not the appendix’s semi-free-start example. Standard WebCrypto SHA-256 hashes both complete 128-byte messages with normal padding and produces different digests.
+
+The fixture records the original source, mirror retrieval URL and PDF SHA-256 fingerprint. The original PDF endpoint returned HTTP403; the matching revision was retrieved from the ePrint mirror. Only the extracted technical data is bundled, not the PDF. Reproduce the independent check with `python3 demos/collision-vault/tools/verify-sha256-research.py`; CI gates it alongside the TypeScript tests. Tests include all 1,024 one-bit mutations, incorrect round/IV/padding controls, and full 64-step compression cross-checks against independent noble SHA-256 at padding boundaries. The browser computes every displayed result and offers mutation and wrong-round controls. It verifies the pair rather than running the attack search or reproducing its complexity estimates.

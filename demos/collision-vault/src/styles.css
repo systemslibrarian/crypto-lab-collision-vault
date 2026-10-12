@@ -1272,3 +1272,15 @@ body.presenter-active {
 .extend-newness {
   margin-top: 0.55rem;
 }
+
+#sha2-pair-verifier { margin-top: 1.5rem; }
+#sha2-pair-verifier a { color: inherit; text-decoration: underline; }
+#sha2-research-steps { font-size: 1rem; padding: .6rem; max-width: 100%; background: var(--panel); color: var(--text); border: 1px solid var(--control-border); }
+.sha2-mutation { display: block; margin: 1rem 0; }
+.sha2-research-values dd { margin: .4rem 0 1rem; font-family: monospace; overflow-wrap: anywhere; }
+#sha2-pair-verifier pre, #sha2-pair-verifier code { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* Native desktop selects otherwise retain their longest option's min-content
+   width even at a narrow viewport. Keep the tamper control inside its panel. */
+.tamper-field { min-width: 0; max-width: 100%; }
+.tamper-select { min-width: 0; max-width: 100%; width: 100%; }
