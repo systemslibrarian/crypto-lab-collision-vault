@@ -66,7 +66,7 @@ export function renderResistancePanel(
       fmt(
         '**Security-margin context:** the best generic collision attack needs about ' +
           '2^(n/2) work for an *n*-bit digest — ~2¹²⁸ for SHA-256/SHA3-256. ' +
-          'No collision attack beating that is publicly known for SHA-2 or SHA-3. Collisions are a ' +
+          'No collision attack beating that is publicly known for the full-round standardized SHA-2 or SHA-3 functions. Collisions are a ' +
           'property of the *function*, not of hashing in general.'
       )
     )

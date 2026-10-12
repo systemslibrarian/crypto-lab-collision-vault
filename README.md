@@ -109,3 +109,7 @@ strict checks, and the publish-request controls remain enabled.
 lint scopes and five ignored output directories, and positive/negative
 compiler and lint behavior. `npm run lint` runs those controls before the
 existing ESLint command.
+
+## Reduced-round research context
+
+The live demo links [2026/232](https://eprint.iacr.org/2026/232) and [2026/1120](https://eprint.iacr.org/2026/1120), distinguishes reported reduced-round results from standard full-round SHA-2, and identifies the September result as a preprint. The reported 36-step pair is not verified by this lab; an executable extension remains contingent on retrieving and independently checking its exact conventions.
