@@ -1,183 +1,183 @@
 {
-  "sourceSha": "03cb28fb637ffdf083b57afacf6ce8c10eb9e370",
-  "sourceCapture": "Actual currentmain ESLint10.12.0/typescript-eslint8.71.1 effectiveconfig for every44trackedJS/TS path, preserving browser/worker/Node/e2e distinctions; compiler config preserves existing options and adds explicitNode ambient types.",
+  "sourceSha": "c9c3fff1f4eead4d9a4727434021a7b69c6f7252",
+  "sourceCapture": "Actual current main ESLint 10.12.0 / @eslint/js 10.0.1 / typescript-eslint 8.71.1 effective config for every 44 tracked JS/TS path, preserving browser/worker/Node/e2e distinctions; compiler config preserves existing options and adds explicit Node ambient types. Re-pinned 2026-10-15 for the @eslint/js 9.39.4 to 10.0.1 bump, which aligns the config package with the eslint 10.12.0 already installed. Diffed before re-pinning: recommended ADDS exactly three rules on every path (no-unassigned-vars, no-useless-assignment, preserve-caught-error) and removes or changes nothing; globals, ecmaVersion, sourceType, parserOptions, linterOptions and processor are identical. no-useless-assignment found one real dead initializer in src/main.ts and it is fixed in the same commit rather than suppressed.",
   "compilerConfigSha256": "b2adab5aa7b7425fbe0944ecc2471c0a06dba3628e6421e928599c8f2b3a0cdd",
   "paths": [
     {
       "path": "e2e/a11y.spec.ts",
-      "configSha256": "7d024064cf106af0dc63e12b08986b1b88451d558a6b075bae9f9af87129bf3a"
+      "configSha256": "41aa1db82208818e3909caaa271ac1c49f2b6bac6e5fb74f476b26503aa20221"
     },
     {
       "path": "e2e/border.spec.ts",
-      "configSha256": "7d024064cf106af0dc63e12b08986b1b88451d558a6b075bae9f9af87129bf3a"
+      "configSha256": "41aa1db82208818e3909caaa271ac1c49f2b6bac6e5fb74f476b26503aa20221"
     },
     {
       "path": "e2e/proof.spec.ts",
-      "configSha256": "7d024064cf106af0dc63e12b08986b1b88451d558a6b075bae9f9af87129bf3a"
+      "configSha256": "41aa1db82208818e3909caaa271ac1c49f2b6bac6e5fb74f476b26503aa20221"
     },
     {
       "path": "e2e/theme.spec.ts",
-      "configSha256": "7d024064cf106af0dc63e12b08986b1b88451d558a6b075bae9f9af87129bf3a"
+      "configSha256": "41aa1db82208818e3909caaa271ac1c49f2b6bac6e5fb74f476b26503aa20221"
     },
     {
       "path": "eslint.config.js",
-      "configSha256": "d82ac1cdd33bf0f4b017afedf3a568577bfb540ea64eee39ed43a4160426ce16"
+      "configSha256": "fd050d16c4ac7a4e19d6e1ca1ff8794b827561c4ec49331a5dd79233f9356cb8"
     },
     {
       "path": "playwright.config.ts",
-      "configSha256": "7d024064cf106af0dc63e12b08986b1b88451d558a6b075bae9f9af87129bf3a"
+      "configSha256": "41aa1db82208818e3909caaa271ac1c49f2b6bac6e5fb74f476b26503aa20221"
     },
     {
       "path": "src/__tests__/craftedRegion.test.ts",
-      "configSha256": "0fc327db5975ba8ae0cdf046fd10694dc648ab075f55328c6776645cfb155fa9"
+      "configSha256": "a101695fa67e1e91bb5683b9724de086eaf0ce17682cc9cac82635c58fbda607"
     },
     {
       "path": "src/__tests__/diff.test.ts",
-      "configSha256": "0fc327db5975ba8ae0cdf046fd10694dc648ab075f55328c6776645cfb155fa9"
+      "configSha256": "a101695fa67e1e91bb5683b9724de086eaf0ce17682cc9cac82635c58fbda607"
     },
     {
       "path": "src/__tests__/extend.test.ts",
-      "configSha256": "0fc327db5975ba8ae0cdf046fd10694dc648ab075f55328c6776645cfb155fa9"
+      "configSha256": "a101695fa67e1e91bb5683b9724de086eaf0ce17682cc9cac82635c58fbda607"
     },
     {
       "path": "src/__tests__/pairs.test.ts",
-      "configSha256": "0fc327db5975ba8ae0cdf046fd10694dc648ab075f55328c6776645cfb155fa9"
+      "configSha256": "a101695fa67e1e91bb5683b9724de086eaf0ce17682cc9cac82635c58fbda607"
     },
     {
       "path": "src/__tests__/proof.test.ts",
-      "configSha256": "0fc327db5975ba8ae0cdf046fd10694dc648ab075f55328c6776645cfb155fa9"
+      "configSha256": "a101695fa67e1e91bb5683b9724de086eaf0ce17682cc9cac82635c58fbda607"
     },
     {
       "path": "src/__tests__/trace.test.ts",
-      "configSha256": "0fc327db5975ba8ae0cdf046fd10694dc648ab075f55328c6776645cfb155fa9"
+      "configSha256": "a101695fa67e1e91bb5683b9724de086eaf0ce17682cc9cac82635c58fbda607"
     },
     {
       "path": "src/__tests__/vectors.test.ts",
-      "configSha256": "0fc327db5975ba8ae0cdf046fd10694dc648ab075f55328c6776645cfb155fa9"
+      "configSha256": "a101695fa67e1e91bb5683b9724de086eaf0ce17682cc9cac82635c58fbda607"
     },
     {
       "path": "src/hashing/client.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/hashing/index.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/hashing/md5.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/hashing/sha3.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/hashing/trace.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/hashing/webcrypto.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/main.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/pairs/extend.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/pairs/loader.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/pairs/manifest.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/pairs/proof.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/byteDiff.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/byteMap.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/citation.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/common.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/digestPanel.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/explainer.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/extend.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/ledger.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/pairSelector.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/pdfPreview.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/presenter.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/proofActions.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/resistancePanel.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/stateTrace.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/ui/tamper.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/util/hex.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/vite-env.d.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "src/workers/hash.worker.ts",
-      "configSha256": "6f7b5647b15654ca3aa6bf1c0d66761e39617d71b054a4118886722979aacf65"
+      "configSha256": "9f7652fa22ef7604d78c7abec4959605fd5985d3222d0c6302a0dceadab431c3"
     },
     {
       "path": "tests/publish-request.node.mjs",
-      "configSha256": "d82ac1cdd33bf0f4b017afedf3a568577bfb540ea64eee39ed43a4160426ce16"
+      "configSha256": "fd050d16c4ac7a4e19d6e1ca1ff8794b827561c4ec49331a5dd79233f9356cb8"
     },
     {
       "path": "vite.config.ts",
-      "configSha256": "8fe275aada5723286d5c220011b2652d9c461bcd4a355c3a6c2b40bd959e6a16"
+      "configSha256": "d7f597d16acc1a4cb60d5790ce9a8b9f44daaf6fc68d620451819b7b5a76bd4f"
     }
   ]
 }
