@@ -68,7 +68,7 @@ async function start(): Promise<void> {
   mountSelector();
   setStatus('neutral', '…', `Validating hash implementations${client.offMainThread ? ' (worker)' : ''}…`);
   let ok = false;
-  let failures: string[] = [];
+  let failures: string[];
   try {
     const r = await client.selfTest();
     ok = r.ok;
