@@ -44,10 +44,6 @@ jobs:
         working-directory: demos/collision-vault
         run: npm run lint
 
-      - name: Type-check
-        working-directory: demos/collision-vault
-        run: npx tsc --noEmit
-
       - name: Test
         working-directory: demos/collision-vault
         run: npx vitest run
@@ -56,9 +52,9 @@ jobs:
         working-directory: demos/collision-vault
         run: python3 tools/verify-sha256-research.py
 
-      - name: Build
+      - name: Type-check, publish gate and build
         working-directory: demos/collision-vault
-        run: npx vite build
+        run: npm run build
 
       - name: Install Playwright browser
         working-directory: demos/collision-vault
