@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { auditControlNames, formatControlNameFailures } from './control-names';
 
 // Automated accessibility checks (axe) over the rendered proof path. We gate on
 // serious/critical WCAG 2 A/AA violations.
@@ -24,6 +25,12 @@ test('no serious accessibility violations on the main proof view', async ({ page
     });
   }
   expect(serious, serious.map((v) => `${v.id}: ${v.help}`).join('\n')).toEqual([]);
+  // axe's `label` rule accepts a bare `placeholder` as an accessible name, so a
+  // deleted label can leave this gate green. See `control-names.ts`.
+  expect(
+    formatControlNameFailures(await auditControlNames(page)),
+    'form controls named only by placeholder/title on the main proof view'
+  ).toEqual([]);
 });
 
 test('no serious accessibility violations in presenter mode', async ({ page }) => {
@@ -41,4 +48,10 @@ test('no serious accessibility violations in presenter mode', async ({ page }) =
     (v) => v.impact === 'serious' || v.impact === 'critical'
   );
   expect(serious, serious.map((v) => `${v.id}: ${v.help}`).join('\n')).toEqual([]);
+  // axe's `label` rule accepts a bare `placeholder` as an accessible name, so a
+  // deleted label can leave this gate green. See `control-names.ts`.
+  expect(
+    formatControlNameFailures(await auditControlNames(page)),
+    'form controls named only by placeholder/title in presenter mode'
+  ).toEqual([]);
 });

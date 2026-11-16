@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { auditControlNames, formatControlNameFailures } from './control-names';
 for(const width of [1280,380])test(`published SHA256 pair and negative controls at ${width}px`,async({page})=>{
  await page.setViewportSize({width,height:900});await page.goto('.');
  const verdict=page.locator('#sha2-research-verdict');
@@ -17,4 +18,6 @@ for(const width of [1280,380])test(`published SHA256 pair and negative controls 
  await expect(page.locator('#sha2-pair-verifier')).toContainText('no extra padding is added', {ignoreCase:true});
  expect(await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth)).toBeLessThanOrEqual(1);
  const scan=await new AxeBuilder({page}).include('#sha2-pair-verifier').withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();expect(scan.violations).toEqual([]);
+ // axe's `label` rule accepts a bare `placeholder` as an accessible name, so a deleted label can leave this gate green. Page-wide, where axe here is scoped to the verifier. See `control-names.ts`.
+ expect(formatControlNameFailures(await auditControlNames(page)),`form controls named only by placeholder/title at ${width}px`).toEqual([]);
 });
