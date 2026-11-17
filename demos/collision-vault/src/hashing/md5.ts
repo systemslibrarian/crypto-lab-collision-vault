@@ -1,7 +1,15 @@
 // MD5 is NOT provided by WebCrypto (it is deliberately omitted as a broken
-// primitive), so we use the audited, dependency-free `@noble/hashes`
-// implementation. MD5 lives in the library's `legacy` entrypoint alongside the
-// other broken/obsolete hashes (SHA-1, RIPEMD-160).
+// primitive), so we use the dependency-free `@noble/hashes` implementation.
+// MD5 lives in the library's `legacy` entrypoint alongside the other
+// broken/obsolete hashes (SHA-1, RIPEMD-160).
+//
+// On "audited": @noble/hashes records one independent audit, "at version 1.0.0,
+// in Jan 2022, independently, by [Cure53]", with scope "everything, besides
+// blake3, sha3-addons, sha1 and argon2". This lab pins v2.4.0, which that audit
+// does not cover, and the library adds that it has "started regular AI-assisted
+// self-audits in Apr 2026". None of that matters much here: MD5 is the broken
+// primitive this lab exists to break, and every digit it produces is checked
+// against RFC 1321's own vectors below.
 import { md5 as nobleMd5 } from '@noble/hashes/legacy.js';
 
 export const MD5_LIBRARY = '@noble/hashes (legacy.js)';
