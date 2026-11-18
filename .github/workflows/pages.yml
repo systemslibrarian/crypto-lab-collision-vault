@@ -52,6 +52,14 @@ jobs:
         working-directory: demos/collision-vault
         run: python3 tools/verify-sha256-research.py
 
+      # A second implementation of Neulaser, sharing no code with the
+      # TypeScript one, re-derives every fixture value the exhibit compares
+      # against: the published table, search count and digests, and the
+      # official known-answer records.
+      - name: Independently verify the Neulaser fixtures
+        working-directory: demos/collision-vault
+        run: python3 tools/verify-neulaser.py
+
       - name: Type-check, publish gate and build
         working-directory: demos/collision-vault
         run: npm run build

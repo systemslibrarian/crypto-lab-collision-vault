@@ -1,4 +1,5 @@
 import { mountSha256Pair } from './research/sha256-pair-ui';
+import { mountNeulaser } from './research/neulaser-ui';
 import './styles.css';
 
 import { HashClient } from './hashing/client';
@@ -34,12 +35,30 @@ app.append(buildIntro());
 
 const selectorHost = el('div', { class: 'selector-host' });
 app.append(selectorHost);
+app.append(
+  el('p', { class: 'note also-here' }, [
+    'Also on this page: ',
+    el('a', { href: '#neulaser-2026', text: 'a 2026 collision where two internal states merge (Neulaser)' }),
+    ', a different mechanism from the MD5 and SHA-1 pairs.'
+  ])
+);
 
 const statusBanner = el('div', { class: 'status-banner', role: 'status', 'aria-live': 'polite' });
 app.append(statusBanner);
 
 const results = el('div', { id: 'results', class: 'results' });
 app.append(results);
+
+// A 2026 collision by a different mechanism sits beside the MD5 / SHA-1 pairs.
+// It is a separate panel, like the reduced SHA-2 verifier below: the pair
+// selector, proof export and presenter stay MD5 / SHA-1 only.
+const neulaser = el('section', {
+  class: 'research-context neulaser',
+  id: 'neulaser-2026',
+  'aria-labelledby': 'neulaser-heading'
+});
+mountNeulaser(neulaser);
+app.append(neulaser);
 
 app.append(buildNonGoals());
 const research = document.createElement('div');

@@ -45,6 +45,12 @@ you type to both halves and recomputes — turning the published pair into a bra
 at a digest that did not exist before you pressed the button — and a keyboard-driven presenter
 mode.
 
+Beside those pairs sits a 2026 exhibit with a different mechanism: **Neulaser**, a first-round
+candidate in China's NGCC hash competition, where two different one-block messages collide because
+the state update is not injective. The panel re-runs the published 175,493-evaluation search, shows
+the two internal states differing in one word and then identical after a single update, hashes both
+messages in full, and offers a one-bit negative control. See *Neulaser (NGCC round one)* below.
+
 That extension panel first measures the three conditions that make a pair *suffix-closed* (equal
 lengths, equal un-padded chaining values after the last complete 64-byte block, identical tail
 bytes), predicts the outcome from them, and only then hashes; the verdict is a function of the
@@ -120,3 +126,38 @@ The live demo links [2026/232](https://eprint.iacr.org/2026/232) and [2026/1120]
 The separate research panel now recomputes the two-block, 36-step collision in Table 2 (p. 14) of [Li et al., ePrint 2026/1120, revised 9 September 2026](https://eprint.iacr.org/2026/1120). It uses the standard SHA-256 IV, big-endian words, steps 0–35 and feed-forward after each block, without appending padding for the reported table value. This is not the appendix’s semi-free-start example. Standard WebCrypto SHA-256 hashes both complete 128-byte messages with normal padding and produces different digests.
 
 The fixture records the original source, mirror retrieval URL and PDF SHA-256 fingerprint. The original PDF endpoint returned HTTP403; the matching revision was retrieved from the ePrint mirror. Only the extracted technical data is bundled, not the PDF. Reproduce the independent check with `python3 demos/collision-vault/tools/verify-sha256-research.py`; CI gates it alongside the TypeScript tests. Tests include all 1,024 one-bit mutations, incorrect round/IV/padding controls, and full 64-step compression cross-checks against independent noble SHA-256 at padding boundaries. The browser computes every displayed result and offers mutation and wrong-round controls. It verifies the pair rather than running the attack search or reproducing its complexity estimates.
+
+## Neulaser (NGCC round one)
+
+*As of November 2026, NGCC is in its first round; the ICCS proposal pages list Round 1 candidates only (checked 18 November 2026). Nothing in round one is standardized or deployed, and candidates can be revised between rounds.*
+
+NGCC (Next-generation Commercial Cryptographic Algorithms) is an open competition run by China's Institute of Commercial Cryptography Standards (ICCS) on the NIST model. Its 35 first-round hash candidates were published on 20 September 2026. Open first rounds exist to find problems early, and NIST's rounds lost candidates the same way.
+
+The exhibit covers one finding against one candidate, **Neulaser v2** (specification dated 30 June 2026; round-one package `Neulaser.zip`, SHA-256 `ffa76faaf6ae1c939ef6b1a726d6bcef19f0f0df63daddfe74a82e2831c4c6b3`).
+
+**The mechanism.** MD5 and SHA-1 collisions follow differential paths: two chaining values differ, and crafted blocks steer them back together. Neulaser's collision needs no steering. Each 16-word module shifts words 1 to 15 down and computes one new word from a local feedback function; the old first word reaches the next state only through that feedback value. Two different first words, `00002743` and `0002ad84`, give the same feedback value `8c41db68`. Two messages that differ only in that word therefore load two different states that become one state after a single update, and stay equal through every later round.
+
+**What the panel computes, and where each figure comes from.** All references are to Yuan, Wu, Wei, Shen, Liu and Zhang, [*Structural Analysis of Seven Hash Functions Submitted to the NGCC*](https://eprint.iacr.org/2026/2152).
+
+| Shown on the page | Source |
+|---|---|
+| Feedback formula, `p = 4294967291`, the functions `F`, `L1`, `L2` and the S-box | Section 4.1, equations (9) to (11) |
+| The intermediate table (`U_F`, `V_F`, `L1`, `L2`, `S(.)`, `F = 87595425` and `368eade4`, `8193x mod p = 04e88743` and `55b32d84`) | Section 4.1, the two tables |
+| First repeat at `x = 0002ad84` against `00002743`, after 175,493 evaluations | Section 4.1, "Finding the two constants" |
+| The state update and the one-word-then-none difference | Section 4.2, equation (12) and Proposition 2; Appendix A.1 |
+| `(n, k, B_n/8, d_n)` = (512, 3, 120, 56), (768, 4, 152, 88), (1024, 5, 184, 120); the messages `00^d_n ‖ BE32(x) ‖ 00^60`; the hash mode | Section 4.3, the parameter table, equation (13) and Corollary 3 |
+| IV formula, output words, and the three common digests | Appendix A.1 and A.2 |
+
+The public tracker records the same finding as [hash-21-1](https://ngcc.dev/reports/hash-21.html) (dated 22 September 2026, credited to a report on the ICCS hash forum). A second, unrelated Neulaser state merger (hash-21-2) is not shown.
+
+**How the implementation was written and checked.** `src/research/neulaser.ts` was written from the analysis above and from the v2 specification. The round-one reference code carries no licence and none of it was copied; only the specification and the test-vector values were read from the package. Three things it is checked against, none of them this code:
+
+- the analysis: the intermediate table, the search count and the three digests;
+- the specification: the 34 IV words (Section 2.3), two S-box rows (Section 4.1.4, Table 2) and the padding rule (Section 2.1);
+- the official known-answer tests: 33 short records and six 2^23-bit records are bundled in `src/__tests__/fixtures/neulaser-official-kat.json`, each file identified by its canonical SHA-256, which matches `hash-21/kat.sha256` in [ngcc-harness](https://github.com/ngcc-dev/ngcc-harness) at commit `ee68a922b690c9e6309183a325befb707eee2a96`.
+
+Before the subset was chosen, the implementation was run once against every record of the three `KAT_2_12` files (4,097 records each, 12,291 in total) and reproduced all of them. `tools/verify-neulaser.py` is a second implementation in Python that shares no code with the TypeScript one and re-derives every fixture value; CI runs it. Reproduce it with `python3 demos/collision-vault/tools/verify-neulaser.py`.
+
+**One convention the specification leaves open.** It does not say how the chaining value and message block become state words. Both submitted implementations load them directly as big-endian 32-bit words with no reduction modulo `p`, and the analysis states its result for that rule. The official known-answer tests confirm it. Reading the final feedback reduction as modulo 2^32, or leaving it unreduced, reproduces none of the 33 bundled short records.
+
+**What this is not.** It is not a break of any deployed hash, it does not bear on SHA-256, SHA-3 or SM3, and it is not a statement about the other NGCC candidates. The panel verifies a published pair and re-runs a published 175,493-step search; it does not find new collisions.

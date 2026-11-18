@@ -1,0 +1,104 @@
+{
+ "candidate": "Neulaser",
+ "programme": "NGCC (Next-generation Commercial Cryptographic Algorithms), first-round hash candidate hash-21",
+ "version": "v2, specification dated 30 June 2026",
+ "package": {
+  "file": "Neulaser.zip",
+  "sha256": "ffa76faaf6ae1c939ef6b1a726d6bcef19f0f0df63daddfe74a82e2831c4c6b3",
+  "source": "https://www.niccs.org.cn/niccs/Proposal/Cryptographic%20Hash%20Algorithms/Round%201%20candidates/Neulaser.zip",
+  "digestListedIn": "https://github.com/ngcc-dev/ngcc-harness/blob/ee68a922b690c9e6309183a325befb707eee2a96/SOURCE_ARCHIVES.md",
+  "retrieved": "2026-11-18",
+  "note": "Only test-vector values and the specification were read from the package. No submitter source code is bundled or was copied."
+ },
+ "analysis": {
+  "title": "Structural Analysis of Seven Hash Functions Submitted to the NGCC",
+  "authors": [
+   "Yufei Yuan",
+   "Ruichen Wu",
+   "Shanpeng Wei",
+   "Junxu Shen",
+   "Jinpeng Liu",
+   "Yixin Zhang"
+  ],
+  "sections": "Section 4 (4.1 to 4.3) and Appendix A (A.1, A.2)",
+  "eprint": "https://eprint.iacr.org/2026/2152",
+  "tracker": "https://ngcc.dev/reports/hash-21.html",
+  "trackerFinding": "hash-21-1, dated 2026-09-22"
+ },
+ "feedback": {
+  "source": "Analysis, Section 4.1 (the two tables) and the paragraph 'Finding the two constants'",
+  "evaluations": 175493,
+  "valueHex": "8c41db68",
+  "inputs": [
+   {
+    "xHex": "00002743",
+    "uF": "00000000",
+    "vF": "27430000",
+    "l1": "00000000",
+    "l2": "ad9a1937",
+    "sL1": "a7a7a7a7",
+    "sL2": "dfb1ac7e",
+    "linearTerm": "04e88743",
+    "f": "87595425"
+   },
+   {
+    "xHex": "0002ad84",
+    "uF": "00000002",
+    "vF": "ad840000",
+    "l1": "0208080a",
+    "l2": "02ce4acc",
+    "sL1": "9b4e4e01",
+    "sL2": "9b405fe3",
+    "linearTerm": "55b32d84",
+    "f": "368eade4"
+   }
+  ]
+ },
+ "publishedDigests": {
+  "source": "Analysis, Appendix A.2: the common digests of the Corollary 3 message pairs",
+  "512": "f899bf50663e6e04fa5374baf28886153ea332bf25443817eb2abbca88072458dbd7a077712aae99fb112b7672c85a705700e027b348516cc45f8fff537713d3",
+  "768": "ce762a05b18ab4fd659e6e601e4236d0908a59ef0feae7dfc71b9580af2f7a5e3cd9e61caa7f2a59dec94cd7b45dc6f9b700a5260145a7f4531e6a207ffc89301f19c342a8a244c17df9140b9e37d9393aa63dd242bc5f9c47a1c8d7edd5094e",
+  "1024": "9004dccd0bc7fb735b191dba252363bd283b6e8faa065725e74520c980ed34e22a13973901e7eb9bca06e47ced3a9f9dd50130787f4fe09e5014c5a8bb571e074174a9a260a81ad126e56fc19e1bd5d8a85c8635c5cc77f97da4290157f45d6d0bbace9bb06e88e991d1222e811e0e7167a9d3c58512eaa67118ab2740aad8d2"
+ },
+ "specVectors": {
+  "source": "Neulaser v2 specification: Section 2.3 (the 34 words of IV*) and Section 4.1.4, Table 2 (S-box rows 0x and Fx)",
+  "ivWordsHex": [
+   "f43e9bde",
+   "7c2cd551",
+   "12006e2d",
+   "8a02761f",
+   "07f697f7",
+   "f9d459ed",
+   "c69c9e7c",
+   "1928306b",
+   "942d886d",
+   "e086856f",
+   "0a9356eb",
+   "f1e98e15",
+   "3490f013",
+   "2e539bf2",
+   "a05258cd",
+   "de0cbf6f",
+   "f72eeba6",
+   "2db13b3c",
+   "f86c80e1",
+   "529eae41",
+   "5cf9de6f",
+   "afe848c1",
+   "7a659972",
+   "78795d7a",
+   "18910d89",
+   "6510f1bd",
+   "9765e522",
+   "0f31b6cd",
+   "fe5aaae9",
+   "9e433325",
+   "43b0477e",
+   "ada38854",
+   "0f2f52be",
+   "024d6691"
+  ],
+  "sboxRow0Hex": "a7129b70b9ea4c734e14013352312b9c",
+  "sboxRowFHex": "6711a0c2b729004978625e5ab4d4095d"
+ }
+}
