@@ -1280,6 +1280,27 @@ body.presenter-active {
 .sha2-research-values dd { margin: .4rem 0 1rem; font-family: monospace; overflow-wrap: anywhere; }
 #sha2-pair-verifier pre, #sha2-pair-verifier code { white-space: pre-wrap; overflow-wrap: anywhere; }
 
+/* Neulaser exhibit (a 2026 state-merge collision). Same panel treatment as the
+   reduced SHA-2 research section, which sets its spacing inline. */
+.neulaser { padding: 1.25rem; margin-top: 1.5rem; line-height: 1.7; }
+.neulaser a, .also-here a { color: inherit; text-decoration: underline; }
+.neulaser h3 { margin: 1.6rem 0 0.4rem; }
+.neulaser-status { border-left: 3px solid var(--control-border); padding-left: 0.8rem; }
+.neulaser label { display: block; margin: 0.8rem 0 0.3rem; }
+.neulaser-control { display: block; margin: 1rem 0; }
+#neulaser-variant, #neulaser-flip-byte { font-size: 1rem; padding: .6rem; max-width: 100%; background: var(--panel); color: var(--text); border: 1px solid var(--control-border); }
+#neulaser-flip-byte { width: 7rem; }
+.neulaser-scroll { overflow-x: auto; max-width: 100%; margin: 0.8rem 0; }
+.neulaser-scroll:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+.neulaser-table { border-collapse: collapse; font-family: var(--mono); font-size: 0.82rem; }
+.neulaser-table caption { caption-side: top; text-align: left; color: var(--muted); padding-bottom: 0.4rem; font-family: Inter, 'Segoe UI', Roboto, system-ui, sans-serif; }
+.neulaser-table th, .neulaser-table td { border: 1px solid var(--border); padding: 0.25rem 0.5rem; text-align: left; white-space: nowrap; }
+.neulaser-table thead th { background-color: var(--panel-strong); }
+.neulaser-differs { background-color: var(--diff-bg); color: var(--diff-fg); font-weight: 700; }
+.neulaser-values dd { margin: .4rem 0 1rem; font-family: var(--mono); overflow-wrap: anywhere; }
+.neulaser pre, .neulaser code { white-space: pre-wrap; overflow-wrap: anywhere; }
+#neulaser-search { margin: 0.4rem 0; }
+
 /* Native desktop selects otherwise retain their longest option's min-content
    width even at a narrow viewport. Keep the tamper control inside its panel. */
 .tamper-field { min-width: 0; max-width: 100%; }
