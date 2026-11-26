@@ -15,6 +15,17 @@ function load(name: string): Uint8Array {
 }
 
 describe('bundled collision pairs', () => {
+  it('attributes SHAttered to the archival paper without reversing the browser timeline', () => {
+    const shattered = PAIRS.find((p) => p.id === 'shattered');
+    expect(shattered?.source.url).toBe('https://ir.cwi.nl/pub/26763/');
+    expect(shattered?.source.title).toContain('CRYPTO 2017');
+    expect(shattered?.history).toContain('6,500 CPU-years and 100 GPU-years');
+    expect(shattered?.history).toContain('2^63.1 calls to the SHA-1 compression function');
+    expect(shattered?.realWorldImpact).toContain('November 2016');
+    expect(shattered?.realWorldImpact).toContain('before SHAttered');
+    expect(shattered?.realWorldImpact).not.toContain('forced browsers');
+  });
+
   it('ships at least the three required pairs (SHA-1 + 2× MD5)', () => {
     const ids = PAIRS.map((p) => p.id);
     expect(ids).toContain('shattered');

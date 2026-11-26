@@ -60,18 +60,18 @@ export const PAIRS: PairManifestEntry[] = [
     history:
       'In February 2017 the CWI Amsterdam / Google "SHAttered" team produced the first ' +
       'public SHA-1 collision: two valid PDF documents that display different content yet ' +
-      'share an identical SHA-1 hash. It took roughly 2^63 SHA-1 computations (~6,500 CPU-' +
-      'years, accelerated with GPUs) — far cheaper than the 2^80 a brute-force birthday ' +
+      'share an identical SHA-1 hash. The authors report about 6,500 CPU-years and 100 GPU-years, equivalent to ' +
+      'roughly 2^63.1 calls to the SHA-1 compression function — far cheaper than the 2^80 a brute-force birthday ' +
       'attack would need. It is an identical-prefix collision: both files share a common ' +
       'prefix, then diverge into specially crafted near-collision blocks.',
     realWorldImpact:
-      'SHA-1 was still used by TLS certificates, Git object IDs, and signature systems. ' +
-      'SHAttered forced browsers and CAs to finish retiring SHA-1.',
+      'SHA-1 was still used by Git object IDs and signature systems. Chrome had already announced ' +
+      'the removal of trust for publicly trusted SHA-1 certificates in November 2016, before SHAttered was announced in February 2017.',
     source: {
-      title: 'The first collision for full SHA-1 (shattered.io)',
+      title: 'The first collision for full SHA-1 (CRYPTO 2017)',
       authors: 'Stevens, Bursztein, Karpman, Albertini, Markov',
       year: 2017,
-      url: 'https://shattered.io/'
+      url: 'https://ir.cwi.nl/pub/26763/'
     },
     isPdf: true,
     describesA: 'PDF document A (renders with one background)',
